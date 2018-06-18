@@ -14,9 +14,15 @@ core
 # Core's dependencies are managed with Composer.
 vendor
 
+# Ignore contrib modules
+modules/contrib
+
 # Ignore configuration files that may contain sensitive information.
 sites/*/settings*.php
 sites/*/services*.yml
+sites/example.sites.php
+sites/development.services.yml
+sites/example.settings.local.php
 
 # Ignore paths that contain user-generated content.
 sites/*/files
