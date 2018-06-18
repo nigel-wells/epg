@@ -1,0 +1,23 @@
+<?php
+
+use Drupal\epg\Controller\epgController;
+
+function epg_cron() {
+    $lastImport = \Drupal::state()->get('epg.last_import', 0);
+    $lastExport = \Drupal::state()->get('epg.last_export', 0);
+    $lastUpdate = \Drupal::state()->get('epg.last_update', 0);
+    $requestTime = \Drupal::time()->getRequestTime();
+    $epgController = new epgController();
+    if (($requestTime - $lastImport) > 43200) {
+        $epgController->importFeed();
+        \Drupal::state()->set('epg.last_import', $requestTime);
+    }
+    if (($requestTime - $lastExport) > 3600) {
+        $epgController->createXML();
+        \Drupal::state()->set('epg.last_export', $requestTime);
+    }
+    if (($requestTime - $lastUpdate) > 300) {
+        $epgController->importProviderData();
+        \Drupal::state()->set('epg.last_update', $requestTime);
+    }
+}

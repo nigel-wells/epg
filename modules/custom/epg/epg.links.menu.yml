@@ -1,0 +1,6 @@
+welcome.admin_settings_form:
+  title: 'EPG configuration'
+  route_name: epg.admin_settings_form
+  description: 'EPG Admin'
+  parent: system.admin_config_system
+  weight: 99

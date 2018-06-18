@@ -1,0 +1,5 @@
+name: EPG
+type: module
+description: EPG import/export script - to be used in Plex
+package: custom
+core: 8.x

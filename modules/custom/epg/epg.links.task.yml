@@ -1,0 +1,5 @@
+example.admin:
+  route_name: epg.node_update
+  title: 'EPG'
+  base_route: entity.node.canonical
+  weight: 100
