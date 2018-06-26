@@ -3,6 +3,7 @@
 namespace Drupal\epg\Model\Content;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\epg\Controller\epgController;
 use Drupal\epg\Provider\TVDB\tvdb;
@@ -92,6 +93,7 @@ class series
                     $this->loadNodeData();
                 }
             } catch (InvalidPluginDefinitionException $e) {
+            } catch (PluginNotFoundException $e) {
             }
         }
     }

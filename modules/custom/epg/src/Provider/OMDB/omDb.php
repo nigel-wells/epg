@@ -86,7 +86,7 @@ class omDb
 
     /**
      * @param request $request
-     * @return Error|\stdClass
+     * @return error|\stdClass
      */
     private function request(request $request) {
         // Check if we can use cache
@@ -145,7 +145,7 @@ class omDb
         } else {
             // Log the response
             $this->logrequest($request, "[ERROR - " . $headerResponse . "]\n" . $response);
-            $Error = new Error($response, $headerResponse, $request);
+            $Error = new error($response, $headerResponse, $request);
             return $Error;
         }
     }

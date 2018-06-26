@@ -65,7 +65,10 @@ class series extends apiObject
      */
     public function getImage()
     {
-        return $this->image->original;
+        if(isset($this->image) && isset($this->image->original)) {
+            return $this->image->original;
+        }
+        return false;
     }
 
     public function getCategory()

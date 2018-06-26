@@ -173,7 +173,7 @@ class tvMaze
         } else {
             // Log the response
             $this->logrequest($request, "[ERROR - " . $headerResponse . "]\n" . $response);
-            $Error = new Error($response, $headerResponse, $request);
+            $Error = new error($response, $headerResponse, $request);
             $Error->triggerError();
             return $Error;
         }

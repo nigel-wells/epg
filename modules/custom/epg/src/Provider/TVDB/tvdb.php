@@ -272,7 +272,7 @@ class tvdb
         } else {
             // Log the response
             $this->logrequest($request, "[ERROR - " . $headerResponse . "]\n" . $response);
-            $Error = new Error($response, $headerResponse, $request);
+            $Error = new error($response, $headerResponse, $request);
             // Don't need to worry about 404 errors as it just means nothing was found and isn't really an error
             if($headerResponse !== 404) {
                 $Error->triggerError();

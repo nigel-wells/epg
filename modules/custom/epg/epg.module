@@ -1,6 +1,8 @@
 <?php
 
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\epg\Controller\epgController;
+use Drupal\epg\Model\Content\programmeFilter;
 
 function epg_cron() {
     $lastImport = \Drupal::state()->get('epg.last_import', 0);
@@ -19,5 +21,12 @@ function epg_cron() {
     if (($requestTime - $lastUpdate) > 300) {
         $epgController->importProviderData();
         \Drupal::state()->set('epg.last_update', $requestTime);
+    }
+}
+
+function epg_node_update(EntityInterface $entity) {
+    if($entity->bundle() == 'programme_filter') {
+        $programmeFilter = new programmeFilter($entity->id());
+        $programmeFilter->updateAllProgrammes();
     }
 }

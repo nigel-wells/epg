@@ -3,6 +3,7 @@
 namespace Drupal\epg\Model\Content;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\epg\Controller\epgController;
 use Drupal\file\Entity\File;
@@ -33,6 +34,7 @@ class channel
                     $this->loadNodeData();
                 }
             } catch (InvalidPluginDefinitionException $e) {
+            } catch (PluginNotFoundException $e) {
             }
         }
     }
@@ -102,6 +104,30 @@ class channel
             $this->update();
         } catch (EntityStorageException $e) {
         }
+    }
+
+    /**
+     * @param bool $upcomingOnly
+     * @return programme[]
+     */
+    public function getProgrammes($upcomingOnly = true)
+    {
+        try {
+            $result = \Drupal::entityQuery('node')
+                ->condition('type', 'programme')
+                ->condition('field_programme_channel', $this->nid)
+                ->condition('field_programme_start_time', \Drupal::time()->getRequestTime(), '>')
+                ->execute();
+            $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
+            $programmes = [];
+            foreach($nodes as $node) {
+                $programmes[] = new programme($node);
+            }
+            return $programmes;
+        } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
+        }
+        return [];
     }
 
     /**

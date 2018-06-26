@@ -68,7 +68,7 @@ class AdminForm extends ConfigFormBase {
         $epgController = new epgController();
 //        $epgController->importProviderData();
 //        $epgController->importFeed();
-        $epgController->createXML();
+//        $epgController->createXML();
 
     }
 }

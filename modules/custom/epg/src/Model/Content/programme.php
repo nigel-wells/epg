@@ -4,10 +4,11 @@ namespace Drupal\epg\Model\Content;
 
 use DateTime;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\node\Entity\Node;
 
-class programme
+class programme extends baseModel
 {
     var $nid = null;
     var $_title;
@@ -27,6 +28,8 @@ class programme
     private $_duration = 0;
     private $_last_attempt;
     private $_movie;
+    private $_filter;
+    private $_valid;
 
     function __construct($nodeId = null)
     {
@@ -60,6 +63,8 @@ class programme
         $this->setRating($node->get('field_programme_rating')->value);
         $this->setYear($node->get('field_programme_year')->value);
         $this->setMovie($node->get('field_programme_movie')->target_id);
+        $this->setFilter($node->get('field_programme_filter')->target_id);
+        $this->setValid($node->get('field_programme_valid')->value);
     }
 
     public function checkForExistingNode()
@@ -78,6 +83,7 @@ class programme
                     $this->loadNodeData();
                 }
             } catch (InvalidPluginDefinitionException $e) {
+            } catch (PluginNotFoundException $e) {
             }
         }
     }
@@ -109,6 +115,8 @@ class programme
         $node->set('field_programme_rating', $this->getRating());
         $node->set('field_programme_year', $this->getYear());
         $node->set('field_programme_movie', $this->getMovie());
+        $node->set('field_programme_filter', $this->getFilter());
+        $node->set('field_programme_valid', $this->isValid());
         try {
             $node->save();
             $this->nid = $node->id();
@@ -243,28 +251,9 @@ class programme
     }
 
     /**
-     * @param string $title
      * @return bool|int|null|string
      */
-    public function isMatchingSeriesAvailable($title = '')
-    {
-        if(!$title) $title = $this->getSearchTitle();
-        try {
-            $nodes = \Drupal::entityTypeManager()
-                ->getStorage('node')
-                ->loadByProperties([
-                    'type' => 'series',
-                    'title' => $title
-                ]);
-            if ($node = reset($nodes)) {
-                return $node->id();
-            }
-        } catch (InvalidPluginDefinitionException $e) {
-        }
-        return false;
-    }
-
-    public function getSearchTitle()
+    public function isMatchingFilterAvailable()
     {
         try {
             $nodes = \Drupal::entityTypeManager()
@@ -274,21 +263,12 @@ class programme
                     'title' => $this->getTitle()
                 ]);
             if ($node = reset($nodes)) {
-                return $node->get('field_programme_filter_name')->value;
+                return $node->id();
             }
         } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
         }
-        $title = $this->getTitle();
-        $keywords = [
-            'All New',
-            'New:'
-        ];
-        foreach($keywords as $keyword) {
-            if(substr($title, 0, strlen($keyword)) == $keyword) {
-                $title = trim(substr($title, strlen($keyword)));
-            }
-        }
-        return $title;
+        return false;
     }
 
     /**
@@ -471,5 +451,37 @@ class programme
     public function setMovie($movie)
     {
         $this->_movie = $movie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilter()
+    {
+        return $this->_filter;
+    }
+
+    /**
+     * @param mixed $filter
+     */
+    public function setFilter($filter)
+    {
+        $this->_filter = $filter;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isValid()
+    {
+        return $this->_valid;
+    }
+
+    /**
+     * @param mixed $valid
+     */
+    public function setValid($valid)
+    {
+        $this->_valid = intval($valid);
     }
 }

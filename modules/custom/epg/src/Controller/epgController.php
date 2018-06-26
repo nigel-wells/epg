@@ -4,18 +4,19 @@ namespace Drupal\epg\Controller;
 
 use DateTime;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\epg\Model\Content\channel;
 use Drupal\epg\Model\Content\episode;
 use Drupal\epg\Model\Content\movie;
 use Drupal\epg\Model\Content\programme;
+use Drupal\epg\Model\Content\programmeFilter;
 use Drupal\epg\Model\Content\series;
 use Drupal\epg\Provider\OMDB\omDb;
 use Drupal\epg\Provider\TVDB\tvdb;
 use Drupal\epg\Provider\TVMaze\tvMaze;
 use Drupal\file\Entity\File;
-use Drupal\node\Entity\Node;
 use Drupal\taxonomy\Entity\Term;
 use SimpleXMLElement;
 
@@ -52,7 +53,7 @@ class epgController extends ControllerBase
 
     public function getFeeds()
     {
-        $path = 'public://epg/channels/';
+        $path = 'private://xml-feeds/';
         if (is_dir($path)) {
             $files = array_diff(scandir($path), array('..', '.'));
             foreach($files as $key => $fileName) {
@@ -66,7 +67,7 @@ class epgController extends ControllerBase
     public function importFeed()
     {
         if ($files = $this->getFeeds()) {
-//            $this->importChannels($files);
+            $this->importChannels($files);
             $this->importProgrammes($files);
         }
     }
@@ -85,6 +86,13 @@ class epgController extends ControllerBase
                         $channel->setTitle($xmlChannel->{'display-name'});
                     }
                     $channel->update();
+                    // Mark all programmes as ready to be un-published unless they get a fresh import
+                    // This allows for changes in the guide as well as dealing with midnight on the
+                    // Final day of the EPG data
+                    foreach($channel->getProgrammes() as $programme) {
+                        $programme->setValid(false);
+                        $programme->update();
+                    }
                     // Attach icon if available
                     if (!empty($xmlChannel->{'icon'}['src'])) {
                         $channel->attachImage($xmlChannel->{'icon'}['src']);
@@ -100,6 +108,7 @@ class epgController extends ControllerBase
         $this->logMessage('EPG - Importing Programmes');
         $updated = 0;
         $created = 0;
+        $unPublished = 0;
         foreach($files as $xmlFile) {
             $this->logMessage('EPG - Importing [' . $xmlFile . ']');
             $xmlProgrammes = simplexml_load_file($xmlFile);
@@ -154,17 +163,25 @@ class epgController extends ControllerBase
                     } else {
                         $created++;
                     }
+                    $programme->setValid(true);
                     $programme->update();
-                    // Check for an existing series and update if required
-                    $seriesId = $programme->getSeries();
-                    if (!$seriesId) {
-                        $seriesId = $programme->isMatchingSeriesAvailable();
-                    }
-                    if ($seriesId) {
-                        if (!$programme->getSeries()) {
-                            $programme->setSeries($seriesId);
-                            $programme->update();
+                    // Check for an existing filter and update if required
+                    $filterId = $programme->getFilter();
+                    if (!$filterId) {
+                        $filterId = $programme->isMatchingFilterAvailable();
+                        if(!$filterId) {
+                            $programmeFilter = new programmeFilter();
+                            $programmeFilter->setTitle($programme->getTitle());
+                            $programmeFilter->update();
+                            $filterId = $programmeFilter->nid;
                         }
+                        $programme->setFilter($filterId);
+                        $programme->update();
+                    }
+                    // Check for an existing series and update if required
+                    $programmeFilter = new programmeFilter($filterId);
+                    $seriesId = $programmeFilter->getSeries();
+                    if ($seriesId) {
                         $series = new series($seriesId);
                         if (!empty($xmlProgramme->{'category'})) {
                             $categories = [];
@@ -186,13 +203,38 @@ class epgController extends ControllerBase
                             }
                         }
                         // Check for any other updates to the series
-                        $series->checkForUpdates();
+//                        $series->checkForUpdates();
                     }
                 }
             }
         }
-        $this->logMessage('EPG - Added ' . $created . ' and updated ' . $updated . ' programmes');
+        foreach($this->getInvalidProgrammes() as $programme) {
+            $programme->unPublish();
+            $unPublished++;
+        }
+        $this->logMessage('EPG - Added ' . $created . ', updated ' . $updated . ', and ' . $unPublished . 'un-published programmes');
         $this->logMessage('EPG - Importing Programmes Completed');
+    }
+
+    /**
+     * @return programme[]
+     */
+    private function getInvalidProgrammes() {
+        try {
+            $result = \Drupal::entityQuery('node')
+                ->condition('type', 'programme')
+                ->condition('field_programme_valid', false)
+                ->execute();
+            $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
+            $programmes = [];
+            foreach($nodes as $node) {
+                $programmes[] = new programme($node);
+            }
+            return $programmes;
+        } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
+        }
+        return [];
     }
 
     static function parseCategory($category)
@@ -210,6 +252,7 @@ class epgController extends ControllerBase
                 return epgController::createCategory($category);
             }
         } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
         }
         return 0;
     }
@@ -243,201 +286,225 @@ class epgController extends ControllerBase
 
     public function importProviderData()
     {
-        $this->logMessage('EPG - Matching Programmes');
+        $this->logMessage('EPG - Matching Programme Movies');
+        $this->checkProgrammeIsMovie();
+        $this->logMessage('EPG - Matching Programme Complete');
+        $this->logMessage('EPG - Matching Programme Filters');
         $counter = 0;
-        foreach($this->getProgrammesMissingData() as $programme) {
-            $this->updateProgrammeData($programme);
+        foreach($this->getProgrammeFiltersMissingData() as $programmeFilter) {
+            $this->updateProgrammeFilterData($programmeFilter);
             $counter++;
             if($counter == 100) break;
         }
-        $this->logMessage('EPG - Matching Programmes Completed');
+        $this->logMessage('EPG - Matching Programme Filters Completed');
     }
 
-    public function updateProgrammeData(programme $programme)
+    public function updateProgrammeFilterData(programmeFilter $programmeFilter)
     {
         $tvdb = new tvdb();
         $tvMaze = new tvMaze();
-        if(!$programme->getMovie() && !$programme->getSeries() && $programme->getDuration() > 60) {
-            // Check to see if its a movie
-            $omDb = new omDb();
-            $title = trim(str_replace([
-                'Movie:',
-                'Prime Flicks:'
-            ], '', $programme->getTitle()));
-            $this->logMessage('Searching OMDb for: ' . $title);
-            if($dataMovie = $omDb->searchForMovie($title)) {
-                $this->logMessage('found! - ' . $dataMovie->getTitle());
-                $movie = new movie();
-                $movie->setImdbId($dataMovie->getImdbID());
-                $movie->checkForExistingNode();
-                if(!$movie->nid) {
-                    $movie->setTitle($dataMovie->getTitle());
-                    $movie->setPlot($dataMovie->getPlot());
-                    $movie->setYear($dataMovie->getYear());
-                    $movie->update();
-                    if($moviePoster = $dataMovie->getPoster()) {
-                        $movie->attachImage($moviePoster);
-                    }
+        $data = $tvdb->searchForSeries($programmeFilter->getSearchTitle());
+        $resultsFound = count($data);
+        $this->logMessage('Searching TVDB for: ' . $programmeFilter->getSearchTitle());
+        foreach ($data as $dataSeries) {
+            if ($this->checkTextMatch($dataSeries->getSeriesName(), $programmeFilter->getSearchTitle(), $resultsFound)) {
+                $this->logMessage('found! - ' . $dataSeries->getSeriesName());
+                $series = new series();
+                $series->setTvdbId($dataSeries->getId());
+                $series->checkForExistingNode();
+                if(!$series->nid) {
+                    $series->update();
+                    $series->checkForUpdates();
                 }
-                $programme->setMovie($movie->nid);
-                $programme->update();
-            } else {
-                $this->logMessage('Unable to find: ' . $title);
+                $programmeFilter->setSeries($series->nid);
+                $programmeFilter->update();
+                break;
             }
         }
-        if(!$programme->getSeries() && !$programme->getMovie() && !$programme->getYear()) {
-            $seriesId = $programme->isMatchingSeriesAvailable();
-            if ($seriesId === false) {
-
-                $data = $tvdb->searchForSeries($programme->getSearchTitle());
-                $resultsFound = count($data);
-                $this->logMessage('Searching TVDB for: ' . $programme->getSearchTitle());
-                foreach ($data as $dataSeries) {
-                    if ($this->checkTextMatch($dataSeries->getSeriesName(), $programme->getSearchTitle(), $resultsFound)) {
-                        $this->logMessage('found! - ' . $dataSeries->getSeriesName());
-                        $series = new series();
-                        $series->setTvdbId($dataSeries->getId());
-                        $series->checkForExistingNode();
-                        if(!$series->nid) {
-                            $series->update();
-                            $series->checkForUpdates();
-                        }
-                        $programme->setSeries($series->nid);
-                        $programme->update();
-                        break;
+        if(!$programmeFilter->getSeries()) {
+            $data = $tvMaze->searchForSeries($programmeFilter->getSearchTitle());
+            $resultsFound = count($data);
+            $this->logMessage('Searching TVMaze for: ' . $programmeFilter->getSearchTitle());
+            foreach ($data as $dataSeries) {
+                if ($this->checkTextMatch($dataSeries->getSeriesName(), $programmeFilter->getSearchTitle(), $resultsFound)) {
+                    $this->logMessage('found! - ' . $dataSeries->getSeriesName());
+                    $series = new series();
+                    $series->setTvMazeId($dataSeries->getId());
+                    $series->checkForExistingNodeTvMaze();
+                    if (!$series->nid) {
+                        $series->update();
+                        $series->checkForUpdates();
                     }
-                }
-                if(!$programme->getSeries()) {
-                    $data = $tvMaze->searchForSeries($programme->getSearchTitle());
-                    $resultsFound = count($data);
-                    $this->logMessage('Searching TVMaze for: ' . $programme->getSearchTitle());
-                    foreach ($data as $dataSeries) {
-                        if ($this->checkTextMatch($dataSeries->getSeriesName(), $programme->getSearchTitle(), $resultsFound)) {
-                            $this->logMessage('found! - ' . $dataSeries->getSeriesName());
-                            $series = new series();
-                            $series->setTvMazeId($dataSeries->getId());
-                            $series->checkForExistingNodeTvMaze();
-                            if (!$series->nid) {
-                                $series->update();
-                                $series->checkForUpdates();
-                            }
-                            $programme->setSeries($series->nid);
-                            $programme->update();
-                            break;
-                        }
-                    }
-                }
-                if(!$programme->getSeries()) {
-                    // Check to see if this is a sports game and link to that sports series
-                    if($sport = $this->checkIfSport($programme->getSearchTitle())) {
-                        $seriesId = $programme->isMatchingSeriesAvailable($sport);
-                        if(!$seriesId) {
-                            $series = new series();
-                            $series->setTitle($sport);
-                            $series->setCategories([0 => epgController::parseCategory('Sport')]);
-                            $series->update();
-                            $this->logMessage('Created new sports series: ' . $sport);
-                        } else {
-                            $programme->setSeries($seriesId);
-                            $programme->update();
-                            $this->logMessage('Matched to existing sports series: ' . $sport);
-                        }
-                    } else {
-                        $this->logMessage('Unable to find: ' . $programme->getSearchTitle());
-                    }
-                }
-            } else {
-                $programme->setSeries($seriesId);
-                $programme->update();
-                $this->logMessage('Series already exists: ' . $programme->getSearchTitle());
-            }
-        }
-        if($programme->getSeries()) {
-            $series = new series($programme->getSeries());
-            // Update episode list if the series hasn't been updated in a while
-            $series->updateEpisodeList();
-            $episodes = $series->getEpisodes();
-            // If we know the episode and season then we can look straight for that
-            if($programme->getSeason() && $programme->getEpisodeNumber()) {
-                foreach($episodes as $episode) {
-                    if($episode->getEpisodeNumber() == $programme->getEpisodeNumber() &&
-                        $episode->getSeason() == $programme->getSeason()) {
-                        $programme->setEpisode($episode->nid);
-                        $programme->setMatchScore(1000);
-                        $programme->update();
-                        break;
-                    }
-                }
-            } else {
-                // Do a string search based on the overview
-                $matches = [];
-                foreach($episodes as $episode) {
-                    if($episode->getOverview() && $programme->getDescription() == $episode->getOverview()) {
-                        $score = 999;
-                    } else {
-                        $score = $this->compareText($programme->getDescription(), $episode->getOverview());
-                    }
-                    $matches[$episode->nid] = $score;
-                }
-                // Find the best match
-                $bestScore = 0;
-                $bestMatch = 0;
-                foreach($matches as $matchId => $score) {
-                    if($score > $bestScore) {
-                        $bestScore = $score;
-                        $bestMatch = $matchId;
-                    }
-                }
-                foreach($episodes as $episode) if($episode->nid == $bestMatch) {
-                    $this->logMessage($programme->getTitle() . '(' . $programme->nid . ') - Best Matched Score: ' . $bestScore . ' - S' . $episode->getSeason() . ' E' . $episode->getEpisodeNumber());
-                    if ($bestScore > 80) {
-                        $programme->setEpisode($episode->nid);
-                    } else {
-                        $programme->setPossibleEpisode($episode->nid);
-                    }
-                    $programme->setMatchScore($bestScore);
-                    if ($bestScore >= 999) {
-                        $programme->setEpisodeNumber($episode->getEpisodeNumber());
-                        $programme->setSeason($episode->getSeason());
-                    }
-                    $programme->update();
+                    $programmeFilter->setSeries($series->nid);
+                    $programmeFilter->update();
                     break;
                 }
             }
+        }
+        if(!$programmeFilter->getSeries()) {
+            // Check to see if this is a sports game and link to that sports series
+            if($sport = $this->checkIfSport($programmeFilter->getSearchTitle())) {
+                $seriesId = $programmeFilter->isMatchingSeriesAvailable($sport);
+                if(!$seriesId) {
+                    $series = new series();
+                    $series->setTitle($sport);
+                    $series->setCategories([0 => epgController::parseCategory('Sport')]);
+                    $series->update();
+                    $this->logMessage('Created new sports series: ' . $sport);
+                } else {
+                    $programmeFilter->setSeries($seriesId);
+                    $programmeFilter->update();
+                    $this->logMessage('Matched to existing sports series: ' . $sport);
+                }
+            } else {
+                $this->logMessage('Unable to find: ' . $programmeFilter->getSearchTitle());
+            }
+        }
+        // If a series was found then update all programmes relating to this filter
+        if($programmeFilter->getSeries()) {
+            $programmeFilter->updateAllProgrammes();
+        }
+//        if($programmeFilter->getSeries()) {
+//            $series = new series($programmeFilter->getSeries());
+//            // Update episode list if the series hasn't been updated in a while
+//            $series->updateEpisodeList();
+//            $episodes = $series->getEpisodes();
+//            // If we know the episode and season then we can look straight for that
+//            if($programmeFilter->getSeason() && $programmeFilter->getEpisodeNumber()) {
+//                foreach($episodes as $episode) {
+//                    if($episode->getEpisodeNumber() == $programmeFilter->getEpisodeNumber() &&
+//                        $episode->getSeason() == $programmeFilter->getSeason()) {
+//                        $programmeFilter->setEpisode($episode->nid);
+//                        $programmeFilter->setMatchScore(1000);
+//                        $programmeFilter->update();
+//                        break;
+//                    }
+//                }
+//            } else {
+//                // Do a string search based on the overview
+//                $matches = [];
+//                foreach($episodes as $episode) {
+//                    if($episode->getOverview() && $programmeFilter->getDescription() == $episode->getOverview()) {
+//                        $score = 999;
+//                    } else {
+//                        $score = $this->compareText($programmeFilter->getDescription(), $episode->getOverview());
+//                    }
+//                    $matches[$episode->nid] = $score;
+//                }
+//                // Find the best match
+//                $bestScore = 0;
+//                $bestMatch = 0;
+//                foreach($matches as $matchId => $score) {
+//                    if($score > $bestScore) {
+//                        $bestScore = $score;
+//                        $bestMatch = $matchId;
+//                    }
+//                }
+//                foreach($episodes as $episode) if($episode->nid == $bestMatch) {
+//                    $this->logMessage($programmeFilter->getTitle() . '(' . $programmeFilter->nid . ') - Best Matched Score: ' . $bestScore . ' - S' . $episode->getSeason() . ' E' . $episode->getEpisodeNumber());
+//                    if ($bestScore > 80) {
+//                        $programmeFilter->setEpisode($episode->nid);
+//                    } else {
+//                        $programmeFilter->setPossibleEpisode($episode->nid);
+//                    }
+//                    $programmeFilter->setMatchScore($bestScore);
+//                    if ($bestScore >= 999) {
+//                        $programmeFilter->setEpisodeNumber($episode->getEpisodeNumber());
+//                        $programmeFilter->setSeason($episode->getSeason());
+//                    }
+//                    $programmeFilter->update();
+//                    break;
+//                }
+//            }
+//        } else {
+//            $programmeFilter->setLastAttempt(date('Y-m-d\TH:i:s'));
+//            $programmeFilter->update();
+//        }
+    }
+
+    private function checkProgrammeIsMovie()
+    {
+        $programmes = $this->getProgrammePossibleMovies();
+        foreach($programmes as $programme) {
+            $this->updateProgrammeData($programme);
+        }
+    }
+
+    private function updateProgrammeData(programme $programme)
+    {
+        // Check to see if its a movie
+        $omDb = new omDb();
+        $title = trim(str_replace([
+            'Movie:',
+            'Prime Flicks:'
+        ], '', $programme->getTitle()));
+        $this->logMessage('Searching OMDb for: ' . $title);
+        if($dataMovie = $omDb->searchForMovie($title)) {
+            $this->logMessage('found! - ' . $dataMovie->getTitle());
+            $movie = new movie();
+            $movie->setImdbId($dataMovie->getImdbID());
+            $movie->checkForExistingNode();
+            if(!$movie->nid) {
+                $movie->setTitle($dataMovie->getTitle());
+                $movie->setPlot($dataMovie->getPlot());
+                $movie->setYear($dataMovie->getYear());
+                $movie->update();
+                if($moviePoster = $dataMovie->getPoster()) {
+                    $movie->attachImage($moviePoster);
+                }
+            }
+            $programmeFilter = new programmeFilter($programme->getFilter());
+            $programmeFilter->setMovie($movie->nid);
+            $programmeFilter->update();
         } else {
-            $programme->setLastAttempt(date('Y-m-d\TH:i:s'));
-            $programme->update();
+            $this->logMessage('Unable to find: ' . $title);
         }
     }
 
     /**
      * @return programme[]
      */
-    private function getProgrammesMissingData()
+    private function getProgrammePossibleMovies()
     {
         try {
             $result = \Drupal::entityQuery('node')
                 ->condition('type', 'programme')
-                ->condition('field_programme_start_time', date('Y-m-d\tH:i:s', strtotime('-1 day')), '>')
-                ->condition('field_programme_channel', '50565', '!=')
-                ->condition('field_programme_channel', '50564', '!=')
-//                ->condition('field_programme_channel', '50296')
                 ->notExists('field_programme_series')
                 ->notExists('field_programme_movie')
+                ->condition('field_programme_duration', '60', '>')
                 ->execute();
             $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
             $programmes = [];
             foreach($nodes as $node) {
-                $programme = new programme($node);
-                if(!$programme->getSeries() &&
-                    !$programme->getMovie()
-                    && strtotime($programme->getLastAttempt()) < strtotime('-3 hours')
-                ) {
-                    $programmes[] = $programme;
-                }
+                $programmes[] = new programme($node);
             }
             return $programmes;
         } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
+        }
+        return [];
+    }
+
+    /**
+     * @return programmeFilter[]
+     */
+    private function getProgrammeFiltersMissingData()
+    {
+        try {
+            $result = \Drupal::entityQuery('node')
+                ->condition('type', 'programme_filter')
+                ->notExists('field_filter_series')
+                ->notExists('field_filter_movie')
+                ->execute();
+            $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
+            $programmeFilters = [];
+            foreach($nodes as $node) {
+                $programmeFilter = new programmeFilter($node);
+                $programmeFilters[] = $programmeFilter;
+            }
+            return $programmeFilters;
+        } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
         }
         return [];
     }
@@ -477,26 +544,7 @@ class epgController extends ControllerBase
             $tmpTextTwo = $this->removeStopWords($textTwo);
             if ($tmpTextOne == $tmpTextTwo) $filterMatched = true;
         }
-        // If a filter was matched then save it for later
-        if($filterMatched) {
-            $this->addProgrammeFilter($programmeTitle, $searchText);
-            return true;
-        }
-        return false;
-    }
-
-    private function addProgrammeFilter($programmeName, $filterName)
-    {
-        $node = Node::create(['type' => 'programme_filter']);
-        $node->set('uid', 1);
-        $node->status = 1;
-        $node->enforceIsNew();
-        $node->set('title', $programmeName);
-        $node->set('field_programme_filter_name', $filterName);
-        try {
-            $node->save();
-        } catch (EntityStorageException $e) {
-        }
+        return $filterMatched;
     }
 
     /**
@@ -589,11 +637,15 @@ class epgController extends ControllerBase
             $xmlChannel->addChild('display-name', $channel->getTitle());
             if($iconId = $channel->getIcon()) {
                 $channelIcon = File::load($iconId);
-                $channelIconPath = \Drupal::service('file_system')->realpath($channelIcon->getFileUri());
-                $channelIconPath = str_replace('/mnt/c/', 'C:\\', $channelIconPath);
-                $channelIconPath = str_replace('/', '\\', $channelIconPath);
-                $xmlIcon = $xmlChannel->addChild('icon');
-                $xmlIcon->addAttribute('src', 'file://' . $channelIconPath);
+                $channelIconPath = '';
+//                $channelIconPath = \Drupal::service('file_system')->realpath($channelIcon->getFileUri());
+//                $channelIconPath = str_replace('/mnt/c/', 'C:\\', $channelIconPath);
+//                $channelIconPath = str_replace('/', '\\', $channelIconPath);
+                $channelIconPath = $this->parseFileAttachment($channelIcon->getFileUri());
+                if($channelIconPath) {
+                    $xmlIcon = $xmlChannel->addChild('icon');
+                    $xmlIcon->addAttribute('src', $channelIconPath);
+                }
             }
         }
         // Add Programmes
@@ -609,11 +661,16 @@ class epgController extends ControllerBase
                 $xmlProgramme->addChild('date', $movie->getYear());
                 if ($posterId = $movie->getPoster()) {
                     $poster = File::load($posterId);
-                    $posterPath = \Drupal::service('file_system')->realpath($poster->getFileUri());
-                    $posterPath = str_replace('/mnt/c/', 'C:\\', $posterPath);
-                    $posterPath = str_replace('/', '\\', $posterPath);
-                    $xmlIcon = $xmlProgramme->addChild('icon');
-                    $xmlIcon->addAttribute('src', 'file://' . $posterPath);
+                    $posterPath = '';
+//                    $posterPath = \Drupal::service('file_system')->realpath($poster->getFileUri());
+//                    $posterPath = str_replace('/mnt/c/', 'C:\\', $posterPath);
+//                    $posterPath = str_replace('/', '\\', $posterPath);
+//                    $posterPath = 'file://' . $posterPath;
+                    $posterPath = $this->parseFileAttachment($poster->getFileUri());
+                    if($posterPath) {
+                        $xmlIcon = $xmlProgramme->addChild('icon');
+                        $xmlIcon->addAttribute('src', $posterPath);
+                    }
                 }
             } else {
                 if($episodeNumber = $programme->getEpisodeNumber()) {
@@ -632,6 +689,7 @@ class epgController extends ControllerBase
                     $xmlRating = $xmlProgramme->addChild('rating');
                     $xmlRating->addChild('value', $programme->getRating());
                 }
+                $xmlProgramme->addChild('previously-shown');
                 if($programme->getSeries()) {
                     $series = new series($programme->getSeries());
                     $xmlProgramme->addChild('title', $this->parseXmlOutputText($programme->getTitle()));
@@ -645,11 +703,16 @@ class epgController extends ControllerBase
                     }
                     if ($posterId = $series->getPoster()) {
                         $poster = File::load($posterId);
-                        $posterPath = \Drupal::service('file_system')->realpath($poster->getFileUri());
-                        $posterPath = str_replace('/mnt/c/', 'C:\\', $posterPath);
-                        $posterPath = str_replace('/', '\\', $posterPath);
-                        $xmlIcon = $xmlProgramme->addChild('icon');
-                        $xmlIcon->addAttribute('src', 'file://' . $posterPath);
+                        $posterPath = '';
+//                        $posterPath = \Drupal::service('file_system')->realpath($poster->getFileUri());
+//                        $posterPath = str_replace('/mnt/c/', 'C:\\', $posterPath);
+//                        $posterPath = str_replace('/', '\\', $posterPath);
+//                        $posterPath = 'file://' . $posterPath;
+                        $posterPath = $this->parseFileAttachment($poster->getFileUri());
+                        if($posterPath) {
+                            $xmlIcon = $xmlProgramme->addChild('icon');
+                            $xmlIcon->addAttribute('src', $posterPath);
+                        }
                         if($programme->getEpisode()) {
                             $episode = new episode($programme->getEpisode());
                             if($episode->getTitle() != $series->getTitle()) {
@@ -664,14 +727,20 @@ class epgController extends ControllerBase
             }
         }
         // Save the file
-        $path = 'public://epg/epgOutput.xml';
+        $path = 'public://epg/xmltv.xml';
         $xml->asXML($path);
-        $this->logMessage('EPG - XML file created [epgOutput.xml]');
+        $this->logMessage('EPG - XML file created [xmltv.xml]');
     }
 
     private function parseXmlOutputText($text)
     {
         return htmlspecialchars(strip_tags($text));
+    }
+
+    private function parseFileAttachment($uri)
+    {
+        global $base_url;
+        return $base_url . file_url_transform_relative(file_create_url($uri));
     }
 
     /**
@@ -691,6 +760,7 @@ class epgController extends ControllerBase
             }
             return $channels;
         } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
         }
         return [];
     }
@@ -715,6 +785,7 @@ class epgController extends ControllerBase
             }
             return $programmes;
         } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
         }
         return [];
     }
