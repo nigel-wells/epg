@@ -1,0 +1,28 @@
+uuid: dada7d91-8d0a-4d6d-b9d2-40e29cdfa1b0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_possible_episode
+    - node.type.episodes
+    - node.type.programme
+id: node.programme.field_programme_possible_episode
+field_name: field_programme_possible_episode
+entity_type: node
+bundle: programme
+label: 'Possible Episode'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      episodes: episodes
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

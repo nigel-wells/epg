@@ -1,0 +1,95 @@
+uuid: d3839ed9-514b-466d-88e7-63c166b92038
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.series.body
+    - field.field.node.series.field_series_categories
+    - field.field.node.series.field_series_first_aired
+    - field.field.node.series.field_series_network
+    - field.field.node.series.field_series_poster
+    - field.field.node.series.field_series_status
+    - field.field.node.series.field_series_tvdb_id
+    - field.field.node.series.field_series_tvmaze_id
+    - node.type.series
+  module:
+    - datetime
+    - image
+    - text
+    - user
+id: node.series.default
+targetEntityType: node
+bundle: series
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_series_categories:
+    weight: 107
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_series_first_aired:
+    weight: 102
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_series_network:
+    weight: 105
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_series_poster:
+    weight: 108
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_series_status:
+    weight: 103
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_series_tvdb_id:
+    weight: 104
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_series_tvmaze_id:
+    weight: 106
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden: {  }

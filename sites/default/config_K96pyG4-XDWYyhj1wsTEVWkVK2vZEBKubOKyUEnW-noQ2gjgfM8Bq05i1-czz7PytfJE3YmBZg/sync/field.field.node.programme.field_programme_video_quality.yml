@@ -1,0 +1,19 @@
+uuid: 46eab7b8-a790-4a85-a5dc-f75ae638d74d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_video_quality
+    - node.type.programme
+id: node.programme.field_programme_video_quality
+field_name: field_programme_video_quality
+entity_type: node
+bundle: programme
+label: 'Video Quality'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,14 @@
+uuid: d842dca8-0e53-4f99-8ba9-849966e909d1
+langcode: en
+status: true
+dependencies: {  }
+name: poster
+label: Poster
+effects:
+  30020c95-53fb-45a0-b757-af5a72f9dc3c:
+    uuid: 30020c95-53fb-45a0-b757-af5a72f9dc3c
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 300
+      height: 460

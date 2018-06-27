@@ -1,0 +1,23 @@
+uuid: 5f83da4e-3861-4f0f-be2d-d0e7545fff45
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_episode_season
+    - node.type.episodes
+id: node.episodes.field_episode_season
+field_name: field_episode_season
+entity_type: node
+bundle: episodes
+label: Season
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

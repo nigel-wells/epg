@@ -1,0 +1,23 @@
+uuid: d94c46ed-49c2-4291-a212-8578c62a0815
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_episode_number
+    - node.type.programme
+id: node.programme.field_programme_episode_number
+field_name: field_programme_episode_number
+entity_type: node
+bundle: programme
+label: 'Episode No.'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

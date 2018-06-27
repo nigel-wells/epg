@@ -1,0 +1,21 @@
+uuid: 5108c021-2bc0-420d-aede-c0304e418cbd
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_series_status
+field_name: field_series_status
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

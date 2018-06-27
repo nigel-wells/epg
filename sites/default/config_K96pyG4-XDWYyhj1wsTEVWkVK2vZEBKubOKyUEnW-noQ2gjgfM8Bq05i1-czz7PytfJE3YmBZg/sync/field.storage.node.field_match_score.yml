@@ -1,0 +1,20 @@
+uuid: fdedf038-71d4-4cc4-bedf-8a44185e254a
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_match_score
+field_name: field_match_score
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

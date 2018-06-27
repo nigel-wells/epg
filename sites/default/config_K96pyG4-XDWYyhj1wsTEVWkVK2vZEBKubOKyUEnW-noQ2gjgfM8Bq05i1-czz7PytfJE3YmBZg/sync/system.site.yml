@@ -1,0 +1,14 @@
+uuid: 0ea548cf-57af-4e59-bef4-cae3b4337c71
+name: 'EPG NZ'
+mail: nigel-wells@hotmail.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
+_core:
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI

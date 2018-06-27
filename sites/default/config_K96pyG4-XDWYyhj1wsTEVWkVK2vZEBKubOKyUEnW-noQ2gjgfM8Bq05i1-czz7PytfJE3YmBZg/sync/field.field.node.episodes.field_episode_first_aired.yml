@@ -1,0 +1,21 @@
+uuid: 87694bae-5942-4a49-987c-5ff94836b78b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_episode_first_aired
+    - node.type.episodes
+  module:
+    - datetime
+id: node.episodes.field_episode_first_aired
+field_name: field_episode_first_aired
+entity_type: node
+bundle: episodes
+label: 'First Aired'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

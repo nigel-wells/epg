@@ -1,0 +1,46 @@
+uuid: 37092ffa-fb9b-4719-ad2c-c602a6f6aa59
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.movie.body
+    - field.field.node.movie.field_movie_imdb_id
+    - field.field.node.movie.field_movie_poster
+    - field.field.node.movie.field_movie_year
+    - image.style.poster
+    - node.type.movie
+  module:
+    - image
+    - user
+id: node.movie.teaser
+targetEntityType: node
+bundle: movie
+mode: teaser
+content:
+  field_movie_poster:
+    type: image
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      image_style: poster
+      image_link: ''
+    third_party_settings: {  }
+  field_movie_year:
+    type: number_integer
+    weight: 1
+    region: content
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+  links:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_movie_imdb_id: true

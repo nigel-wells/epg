@@ -1,0 +1,28 @@
+uuid: 73fa02f9-972f-42ad-b653-e34ff7c63b9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_series
+    - node.type.programme
+    - node.type.series
+id: node.programme.field_programme_series
+field_name: field_programme_series
+entity_type: node
+bundle: programme
+label: Series
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      series: series
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

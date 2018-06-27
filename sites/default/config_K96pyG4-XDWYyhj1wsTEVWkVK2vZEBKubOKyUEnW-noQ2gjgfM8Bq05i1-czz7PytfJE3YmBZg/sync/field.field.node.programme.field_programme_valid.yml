@@ -1,0 +1,23 @@
+uuid: 836591dd-417f-4989-927e-03e2511a056a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_valid
+    - node.type.programme
+id: node.programme.field_programme_valid
+field_name: field_programme_valid
+entity_type: node
+bundle: programme
+label: Valid
+description: 'Used during the import. All existing programmes get made invalid and are then made valid again if they are found during the next XML import from the EPG. Those that are not found are then ub-published.'
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

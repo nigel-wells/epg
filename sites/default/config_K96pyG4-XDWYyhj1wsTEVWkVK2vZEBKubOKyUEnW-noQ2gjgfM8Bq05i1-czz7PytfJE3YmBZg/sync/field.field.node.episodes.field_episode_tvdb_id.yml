@@ -1,0 +1,23 @@
+uuid: 8bafcfbe-1062-4aae-af24-3d5e45b5824d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_episode_tvdb_id
+    - node.type.episodes
+id: node.episodes.field_episode_tvdb_id
+field_name: field_episode_tvdb_id
+entity_type: node
+bundle: episodes
+label: 'TVDB ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

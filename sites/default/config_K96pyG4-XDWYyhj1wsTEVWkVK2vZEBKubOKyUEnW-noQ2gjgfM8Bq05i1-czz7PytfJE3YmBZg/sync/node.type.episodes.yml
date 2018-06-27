@@ -1,0 +1,18 @@
+uuid: 747c3110-180c-4864-a4b2-5b46482d47ba
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Episode
+type: episodes
+description: 'Episodes relating to TV Series'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

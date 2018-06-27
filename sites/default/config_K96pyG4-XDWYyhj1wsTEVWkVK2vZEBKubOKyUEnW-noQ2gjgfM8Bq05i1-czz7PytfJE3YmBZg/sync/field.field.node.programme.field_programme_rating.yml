@@ -1,0 +1,19 @@
+uuid: d677cb9e-0476-45d5-a7c9-2c150413a973
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_rating
+    - node.type.programme
+id: node.programme.field_programme_rating
+field_name: field_programme_rating
+entity_type: node
+bundle: programme
+label: Rating
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

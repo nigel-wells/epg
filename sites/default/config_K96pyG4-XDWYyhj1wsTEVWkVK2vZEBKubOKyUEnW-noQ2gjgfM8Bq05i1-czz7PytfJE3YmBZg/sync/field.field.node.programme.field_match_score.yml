@@ -1,0 +1,23 @@
+uuid: 88b2ec04-5815-4cff-822b-6c33f3399716
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_match_score
+    - node.type.programme
+id: node.programme.field_match_score
+field_name: field_match_score
+entity_type: node
+bundle: programme
+label: 'Match Score'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

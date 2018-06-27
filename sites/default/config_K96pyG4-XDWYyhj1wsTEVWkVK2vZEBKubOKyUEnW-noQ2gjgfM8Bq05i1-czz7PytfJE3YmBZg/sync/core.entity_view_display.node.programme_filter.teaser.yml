@@ -1,0 +1,18 @@
+uuid: 768b6fc8-da9b-4a80-8d79-7af167beffc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.programme_filter
+  module:
+    - user
+id: node.programme_filter.teaser
+targetEntityType: node
+bundle: programme_filter
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden: {  }

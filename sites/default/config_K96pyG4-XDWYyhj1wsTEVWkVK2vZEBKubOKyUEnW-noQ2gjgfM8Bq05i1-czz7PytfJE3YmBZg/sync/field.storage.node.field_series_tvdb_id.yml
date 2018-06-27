@@ -1,0 +1,20 @@
+uuid: 4c8b5fa2-f0c9-4806-8b96-f6d0e5d43eed
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_series_tvdb_id
+field_name: field_series_tvdb_id
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

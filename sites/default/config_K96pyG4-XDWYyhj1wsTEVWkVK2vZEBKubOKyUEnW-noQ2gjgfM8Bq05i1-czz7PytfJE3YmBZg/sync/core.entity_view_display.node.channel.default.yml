@@ -1,0 +1,38 @@
+uuid: bd67201e-d5db-4b37-baee-774b0fbe08c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.channel.field_channel_icon
+    - field.field.node.channel.field_channel_number
+    - node.type.channel
+  module:
+    - image
+    - user
+id: node.channel.default
+targetEntityType: node
+bundle: channel
+mode: default
+content:
+  field_channel_icon:
+    weight: 102
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_channel_number:
+    weight: 101
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden: {  }

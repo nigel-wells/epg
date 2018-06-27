@@ -1,0 +1,23 @@
+uuid: 5ae0b7e7-fdb8-417b-9322-5f8458f459e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_season
+    - node.type.programme
+id: node.programme.field_programme_season
+field_name: field_programme_season
+entity_type: node
+bundle: programme
+label: 'Season No.'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

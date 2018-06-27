@@ -1,0 +1,10 @@
+uuid: a4981dad-66b5-4079-9d37-55595a4500ef
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.poster_teaser
+label: 'Poster Teaser'
+targetEntityType: node
+cache: true

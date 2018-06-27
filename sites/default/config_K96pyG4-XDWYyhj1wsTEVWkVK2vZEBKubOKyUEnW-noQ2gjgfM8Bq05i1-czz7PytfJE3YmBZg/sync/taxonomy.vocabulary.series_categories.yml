@@ -1,0 +1,9 @@
+uuid: f5c63102-3d42-4af4-8c20-cedc63ef8274
+langcode: en
+status: true
+dependencies: {  }
+name: 'Series Categories'
+vid: series_categories
+description: ''
+hierarchy: 0
+weight: 0

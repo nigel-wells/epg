@@ -1,0 +1,28 @@
+uuid: 8ad21cd9-5f55-4603-b51f-37f7b365f0d5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_filter_movie
+    - node.type.movie
+    - node.type.programme_filter
+id: node.programme_filter.field_filter_movie
+field_name: field_filter_movie
+entity_type: node
+bundle: programme_filter
+label: Movie
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      movie: movie
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

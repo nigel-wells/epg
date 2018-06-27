@@ -1,0 +1,19 @@
+uuid: 786f9aac-266b-48d4-ad25-765fa0a05e43
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_episode_series
+field_name: field_episode_series
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

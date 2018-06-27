@@ -1,0 +1,28 @@
+uuid: 0e84e4b8-89af-4c4b-84ed-bb7b7e536d5d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_filter
+    - node.type.programme
+    - node.type.programme_filter
+id: node.programme.field_programme_filter
+field_name: field_programme_filter
+entity_type: node
+bundle: programme
+label: Filter
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      programme_filter: programme_filter
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

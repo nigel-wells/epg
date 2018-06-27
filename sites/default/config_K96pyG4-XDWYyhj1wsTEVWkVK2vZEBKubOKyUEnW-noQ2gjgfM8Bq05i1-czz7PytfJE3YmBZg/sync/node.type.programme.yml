@@ -1,0 +1,18 @@
+uuid: cf5c1198-19ba-476d-b19a-2fd44f92cad7
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Programme
+type: programme
+description: 'Data pulled from the EPG. This will be linked up to relevant episodes or movie information'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

@@ -1,0 +1,21 @@
+uuid: dc4e3117-4e92-4988-9113-2817c03c786a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_first_aired
+    - node.type.series
+  module:
+    - datetime
+id: node.series.field_series_first_aired
+field_name: field_series_first_aired
+entity_type: node
+bundle: series
+label: 'First Aired'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

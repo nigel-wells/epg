@@ -1,0 +1,21 @@
+uuid: 4a85471d-efa4-4d3d-8f0f-97e215a13f63
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_programme_last_attempt
+    - node.type.programme
+  module:
+    - datetime
+id: node.programme.field_programme_last_attempt
+field_name: field_programme_last_attempt
+entity_type: node
+bundle: programme
+label: 'Last Attempt'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

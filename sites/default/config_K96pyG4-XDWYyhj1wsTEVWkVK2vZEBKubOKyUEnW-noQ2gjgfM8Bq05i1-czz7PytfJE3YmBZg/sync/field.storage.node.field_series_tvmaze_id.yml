@@ -1,0 +1,20 @@
+uuid: 043e14c4-3261-461c-87e5-5c58698c0323
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_series_tvmaze_id
+field_name: field_series_tvmaze_id
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,107 @@
+uuid: 953fcda8-228f-472f-8903-74ade2fa9710
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.episodes.body
+    - field.field.node.episodes.field_episode
+    - field.field.node.episodes.field_episode_first_aired
+    - field.field.node.episodes.field_episode_last_updated
+    - field.field.node.episodes.field_episode_season
+    - field.field.node.episodes.field_episode_series
+    - field.field.node.episodes.field_episode_tvdb_id
+    - field.field.node.episodes.field_programme_tvmaze_id
+    - node.type.episodes
+  module:
+    - datetime
+    - path
+    - text
+id: node.episodes.default
+targetEntityType: node
+bundle: episodes
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 4
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  field_episode:
+    weight: 3
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_episode_first_aired:
+    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_episode_last_updated:
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_timestamp
+    region: content
+  field_episode_season:
+    weight: 2
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_episode_series:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_episode_tvdb_id:
+    type: number
+    weight: 7
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_programme_tvmaze_id:
+    weight: 26
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  path:
+    type: path
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 9
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  promote: true
+  sticky: true
+  uid: true

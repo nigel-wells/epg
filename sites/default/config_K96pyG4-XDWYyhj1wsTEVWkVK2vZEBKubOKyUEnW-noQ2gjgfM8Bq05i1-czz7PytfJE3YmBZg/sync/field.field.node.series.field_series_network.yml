@@ -1,0 +1,19 @@
+uuid: 1b8cd5c4-c91e-43b1-b329-789a06d76133
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_network
+    - node.type.series
+id: node.series.field_series_network
+field_name: field_series_network
+entity_type: node
+bundle: series
+label: Network
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

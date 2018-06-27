@@ -1,0 +1,18 @@
+uuid: 25abd96a-6495-4039-b923-65c96a17f5dc
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Series
+type: series
+description: 'TV Series containing general information about the show'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

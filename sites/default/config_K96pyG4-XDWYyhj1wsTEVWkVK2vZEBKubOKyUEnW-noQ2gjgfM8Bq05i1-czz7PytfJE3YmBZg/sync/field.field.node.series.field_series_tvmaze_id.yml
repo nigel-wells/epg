@@ -1,0 +1,23 @@
+uuid: 002f9b0c-6e47-40c6-aca9-ef23c1c1f794
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_tvmaze_id
+    - node.type.series
+id: node.series.field_series_tvmaze_id
+field_name: field_series_tvmaze_id
+entity_type: node
+bundle: series
+label: 'TVMaze ID'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

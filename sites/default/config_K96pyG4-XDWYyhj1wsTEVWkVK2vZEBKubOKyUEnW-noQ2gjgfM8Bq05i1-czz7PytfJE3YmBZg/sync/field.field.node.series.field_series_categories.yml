@@ -1,0 +1,29 @@
+uuid: 83f51d05-5548-49a8-9c8a-522ae9bbff38
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_categories
+    - node.type.series
+    - taxonomy.vocabulary.series_categories
+id: node.series.field_series_categories
+field_name: field_series_categories
+entity_type: node
+bundle: series
+label: Categories
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      series_categories: series_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

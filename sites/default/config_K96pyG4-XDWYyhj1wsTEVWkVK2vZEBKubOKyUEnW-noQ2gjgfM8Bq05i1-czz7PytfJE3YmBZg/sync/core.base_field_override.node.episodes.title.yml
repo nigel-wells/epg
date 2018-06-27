@@ -1,0 +1,18 @@
+uuid: 30a19da5-0c70-42cc-9051-1734940b34bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.episodes
+id: node.episodes.title
+field_name: title
+entity_type: node
+bundle: episodes
+label: 'Episode Name'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

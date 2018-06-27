@@ -1,0 +1,23 @@
+uuid: ef1c554c-8830-4d3f-8baa-d9926aec7453
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_channel_number
+    - node.type.channel
+id: node.channel.field_channel_number
+field_name: field_channel_number
+entity_type: node
+bundle: channel
+label: 'Channel Number'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

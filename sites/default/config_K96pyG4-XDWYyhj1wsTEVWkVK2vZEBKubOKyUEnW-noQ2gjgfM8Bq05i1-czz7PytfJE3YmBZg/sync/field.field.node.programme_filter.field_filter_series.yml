@@ -1,0 +1,28 @@
+uuid: da116cfc-8f9d-48e0-adb9-03ac4ec062a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_filter_series
+    - node.type.programme_filter
+    - node.type.series
+id: node.programme_filter.field_filter_series
+field_name: field_filter_series
+entity_type: node
+bundle: programme_filter
+label: Series
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      series: series
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

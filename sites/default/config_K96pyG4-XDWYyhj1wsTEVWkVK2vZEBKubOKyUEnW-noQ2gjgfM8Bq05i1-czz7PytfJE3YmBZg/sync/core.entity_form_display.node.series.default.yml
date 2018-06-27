@@ -1,0 +1,107 @@
+uuid: 4f0618c7-394d-4fcf-a2e5-0c7bec8a9695
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.series.body
+    - field.field.node.series.field_series_categories
+    - field.field.node.series.field_series_first_aired
+    - field.field.node.series.field_series_network
+    - field.field.node.series.field_series_poster
+    - field.field.node.series.field_series_status
+    - field.field.node.series.field_series_tvdb_id
+    - field.field.node.series.field_series_tvmaze_id
+    - image.style.thumbnail
+    - node.type.series
+  module:
+    - datetime
+    - image
+    - path
+    - text
+id: node.series.default
+targetEntityType: node
+bundle: series
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 2
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  field_series_categories:
+    weight: 27
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_series_first_aired:
+    weight: 3
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_series_network:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_series_poster:
+    weight: 28
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  field_series_status:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_series_tvmaze_id:
+    weight: 26
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  path:
+    type: path
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 6
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  field_series_tvdb_id: true
+  promote: true
+  sticky: true
+  uid: true

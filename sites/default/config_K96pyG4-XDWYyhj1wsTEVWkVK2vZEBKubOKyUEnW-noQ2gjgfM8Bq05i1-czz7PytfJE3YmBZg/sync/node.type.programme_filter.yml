@@ -1,0 +1,18 @@
+uuid: 08f058b9-6c41-45cf-ac22-47bdab5d8ec0
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Programme Filter'
+type: programme_filter
+description: 'Alternative programme names to be used when searching the API'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true
