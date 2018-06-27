@@ -59,7 +59,7 @@ class locateDataForm extends ConfigFormBase {
             $form['tvdb_id'] = [
                 '#type' => 'number',
                 '#title' => $this->t('TVDB ID'),
-                '#description' => $this->t('ID from <a href="http://www.thetvdb.com/" target="_blank">www.thetvdb.com</a>'),
+                '#description' => $this->t('ID from <a href="http://www.thetvdb.com/search?q=' . rawurlencode($programmeFilter->getSearchTitle()) . '" target="_blank">www.thetvdb.com</a>'),
             ];
             $form['tvmaze_id'] = [
                 '#type' => 'number',

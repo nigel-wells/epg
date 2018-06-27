@@ -67,7 +67,7 @@ class epgController extends ControllerBase
     public function importFeed()
     {
         if ($files = $this->getFeeds()) {
-            $this->importChannels($files);
+//            $this->importChannels($files);
             $this->importProgrammes($files);
         }
     }
@@ -212,7 +212,7 @@ class epgController extends ControllerBase
             $programme->unPublish();
             $unPublished++;
         }
-        $this->logMessage('EPG - Added ' . $created . ', updated ' . $updated . ', and ' . $unPublished . 'un-published programmes');
+        $this->logMessage('EPG - Added ' . $created . ', updated ' . $updated . ', and ' . $unPublished . ' un-published programmes');
         $this->logMessage('EPG - Importing Programmes Completed');
     }
 
@@ -294,7 +294,7 @@ class epgController extends ControllerBase
         foreach($this->getProgrammeFiltersMissingData() as $programmeFilter) {
             $this->updateProgrammeFilterData($programmeFilter);
             $counter++;
-            if($counter == 100) break;
+            if($counter == 50) break;
         }
         $this->logMessage('EPG - Matching Programme Filters Completed');
     }
@@ -650,6 +650,7 @@ class epgController extends ControllerBase
         }
         // Add Programmes
         foreach($this->getProgrammes() as $index => $programme) if ($programme->getTitle()) {
+            $posterAdded = false;
             $xmlProgramme = $xml->addChild('programme');
             $xmlProgramme->addAttribute('start', date('YmdHis O', strtotime($programme->getStartTime(true))));
             $xmlProgramme->addAttribute('stop', date('YmdHis O', strtotime($programme->getEndTime(true))));
@@ -670,6 +671,7 @@ class epgController extends ControllerBase
                     if($posterPath) {
                         $xmlIcon = $xmlProgramme->addChild('icon');
                         $xmlIcon->addAttribute('src', $posterPath);
+                        $posterAdded = true;
                     }
                 }
             } else {
@@ -712,6 +714,7 @@ class epgController extends ControllerBase
                         if($posterPath) {
                             $xmlIcon = $xmlProgramme->addChild('icon');
                             $xmlIcon->addAttribute('src', $posterPath);
+                            $posterAdded = true;
                         }
                         if($programme->getEpisode()) {
                             $episode = new episode($programme->getEpisode());
@@ -724,6 +727,10 @@ class epgController extends ControllerBase
                     $xmlProgramme->addChild('title', $this->parseXmlOutputText($programme->getTitle()));
                     $xmlProgramme->addChild('desc', $this->parseXmlOutputText($programme->getDescription()));
                 }
+            }
+            if(!$posterAdded) {
+                $xmlIcon = $xmlProgramme->addChild('icon');
+                $xmlIcon->addAttribute('src', 'https://dummyimage.com/778x1200/000/fff.jpg&text=' . rawurlencode($programme->getTitle()));
             }
         }
         // Save the file
@@ -774,7 +781,8 @@ class epgController extends ControllerBase
             $nodes = \Drupal::entityTypeManager()
                 ->getStorage('node')
                 ->loadByProperties([
-                    'type' => 'programme'
+                    'type' => 'programme',
+                    'status' => '1'
                 ]);
             $programmes = [];
             foreach($nodes as $node) {

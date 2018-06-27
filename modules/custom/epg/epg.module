@@ -5,6 +5,7 @@ use Drupal\epg\Controller\epgController;
 use Drupal\epg\Model\Content\programmeFilter;
 
 function epg_cron() {
+    ini_set('memory_limit', '1024M');
     $lastImport = \Drupal::state()->get('epg.last_import', 0);
     $lastExport = \Drupal::state()->get('epg.last_export', 0);
     $lastUpdate = \Drupal::state()->get('epg.last_update', 0);

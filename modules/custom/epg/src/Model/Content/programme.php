@@ -10,7 +10,6 @@ use Drupal\node\Entity\Node;
 
 class programme extends baseModel
 {
-    var $nid = null;
     var $_title;
     var $_channel_number;
     var $_description;
@@ -181,7 +180,7 @@ class programme extends baseModel
         if($timezone) {
             $parseDate = new DateTime($this->_start_time, new \DateTimeZone('UTC'));
             $parseDate->setTimezone(new \DateTimeZone('Pacific/Auckland'));
-            return $parseDate->format('Y-m-d H:i:s');
+            return $parseDate->format('Y-m-d H:i:s O');
         } else {
             return $this->_start_time;
         }
@@ -204,7 +203,7 @@ class programme extends baseModel
         if($timezone) {
             $parseDate = new DateTime($this->_end_time, new \DateTimeZone('UTC'));
             $parseDate->setTimezone(new \DateTimeZone('Pacific/Auckland'));
-            return $parseDate->format('Y-m-d H:i:s');
+            return $parseDate->format('Y-m-d H:i:s O');
         } else {
             return $this->_end_time;
         }

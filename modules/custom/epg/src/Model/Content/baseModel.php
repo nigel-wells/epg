@@ -5,7 +5,7 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\node\Entity\Node;
 
 class baseModel {
-    private $nid = 0;
+    var $nid = 0;
 
     public function id()
     {

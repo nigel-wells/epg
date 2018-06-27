@@ -60,6 +60,7 @@ class AdminForm extends ConfigFormBase {
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
+        ini_set('memory_limit', '1024M');
 //        parent::submitForm($form, $form_state);
 //
 //        $this->config('epg.adminsettings')
@@ -68,7 +69,7 @@ class AdminForm extends ConfigFormBase {
         $epgController = new epgController();
 //        $epgController->importProviderData();
 //        $epgController->importFeed();
-//        $epgController->createXML();
+        $epgController->createXML();
 
     }
 }
