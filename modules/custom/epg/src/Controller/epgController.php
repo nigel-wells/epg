@@ -178,8 +178,12 @@ class epgController extends ControllerBase
                         $programme->setFilter($filterId);
                         $programme->update();
                     }
-                    // Check for an existing series and update if required
+                    // Update series and movie information if already available
                     $programmeFilter = new programmeFilter($filterId);
+                    $programme->setMovie($programmeFilter->getMovie());
+                    $programme->setSeries($programmeFilter->getSeries());
+                    $programme->update();
+                    // Check for an existing series and update if required
                     $seriesId = $programmeFilter->getSeries();
                     if ($seriesId) {
                         $series = new series($seriesId);
@@ -224,6 +228,7 @@ class epgController extends ControllerBase
             $result = \Drupal::entityQuery('node')
                 ->condition('type', 'programme')
                 ->condition('field_programme_valid', false)
+                ->condition('status', '1')
                 ->execute();
             $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
             $programmes = [];
