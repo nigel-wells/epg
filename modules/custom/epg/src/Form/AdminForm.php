@@ -43,14 +43,29 @@ class AdminForm extends ConfigFormBase {
         $text = 'Nope';
         $path = $epgController->getFeeds();
         if($path !== false) {
-            $text = print_r($path, true);
+            $form['feed_title'] = [
+                '#markup' => '<h2>Available XML Feeds</h2>'
+            ];
+            foreach($path as $index => $xmlFile) {
+                $form['feed_' . $index] = [
+                    '#markup' => '<li>' . substr($xmlFile, strrpos($xmlFile, '/') + 1) . '</li>',
+                ];
+            }
         }
-
-        $form['welcome_message'] = [
-            '#type' => 'textarea',
-            '#title' => $this->t('Welcome message2'),
-            '#description' => $this->t('Welcome message display to users when they login'),
-            '#default_value' => $text,
+        $form['trigger_title'] = [
+            '#markup' => '<h2>Triggers to run</h2>'
+        ];
+        $form['import_feeds'] = [
+            '#type' => 'checkbox',
+            '#title' => 'Feeds (channels &amp; programmes)'
+        ];
+        $form['update_filters'] = [
+            '#type' => 'checkbox',
+            '#title' => 'Match up programme filters'
+        ];
+        $form['create_xml'] = [
+            '#type' => 'checkbox',
+            '#title' => 'Create XMLTV file'
         ];
 
         return parent::buildForm($form, $form_state);
@@ -61,15 +76,19 @@ class AdminForm extends ConfigFormBase {
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         ini_set('memory_limit', '1024M');
-//        parent::submitForm($form, $form_state);
-//
-//        $this->config('epg.adminsettings')
-//            ->set('welcome_message', $form_state->getValue('welcome_message'))
-//            ->save();
+        $import_feeds = $form_state->getValue('import_feeds');
+        $update_filters = $form_state->getValue('update_filters');
+        $create_xml = $form_state->getValue('create_xml');
         $epgController = new epgController();
-//        $epgController->importProviderData();
-        $epgController->importFeed();
-//        $epgController->createXML();
+        if($import_feeds) {
+            $epgController->importFeed();
+        }
+        if($update_filters) {
+            $epgController->importProviderData();
+        }
+        if($create_xml) {
+            $epgController->createXML();
+        }
 
     }
 }

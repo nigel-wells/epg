@@ -3,10 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.programme_filter.field_filter_last_attempt
     - field.field.node.programme_filter.field_filter_movie
     - field.field.node.programme_filter.field_filter_series
     - node.type.programme_filter
   module:
+    - datetime
     - path
 id: node.programme_filter.default
 targetEntityType: node
@@ -19,6 +21,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_filter_last_attempt:
+    weight: 124
+    settings: {  }
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_filter_movie:
     weight: 123
     settings:

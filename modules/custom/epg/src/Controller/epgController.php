@@ -368,6 +368,9 @@ class epgController extends ControllerBase
         // If a series was found then update all programmes relating to this filter
         if($programmeFilter->getSeries()) {
             $programmeFilter->updateAllProgrammes();
+        } else {
+            $programmeFilter->setLastAttempt(date('Y-m-d\TH:i:s'));
+            $programmeFilter->update();
         }
 //        if($programmeFilter->getSeries()) {
 //            $series = new series($programmeFilter->getSeries());
@@ -421,17 +424,17 @@ class epgController extends ControllerBase
 //                    break;
 //                }
 //            }
-//        } else {
-//            $programmeFilter->setLastAttempt(date('Y-m-d\TH:i:s'));
-//            $programmeFilter->update();
 //        }
     }
 
     private function checkProgrammeIsMovie()
     {
         $programmes = $this->getProgrammePossibleMovies();
+        $counter = 0;
         foreach($programmes as $programme) {
             $this->updateProgrammeData($programme);
+            $counter++;
+            if($counter == 30) break;
         }
     }
 
@@ -462,6 +465,8 @@ class epgController extends ControllerBase
             $programmeFilter->setMovie($movie->nid);
             $programmeFilter->update();
         } else {
+            $programme->setLastAttempt(date('Y-m-d\TH:i:s'));
+            $programme->update();
             $this->logMessage('Unable to find: ' . $title);
         }
     }
@@ -477,11 +482,15 @@ class epgController extends ControllerBase
                 ->notExists('field_programme_series')
                 ->notExists('field_programme_movie')
                 ->condition('field_programme_duration', '60', '>')
+                ->condition('field_programme_start_time', date('Y-m-d\tH:i:s', strtotime('-1 day')), '>')
                 ->execute();
             $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
             $programmes = [];
             foreach($nodes as $node) {
-                $programmes[] = new programme($node);
+                $programme = new programme($node);
+                if(strtotime($programme->getLastAttempt()) < strtotime('-3 hours')) {
+                    $programmes[] = $programme;
+                }
             }
             return $programmes;
         } catch (InvalidPluginDefinitionException $e) {
@@ -505,7 +514,9 @@ class epgController extends ControllerBase
             $programmeFilters = [];
             foreach($nodes as $node) {
                 $programmeFilter = new programmeFilter($node);
-                $programmeFilters[] = $programmeFilter;
+                if(strtotime($programmeFilter->getLastAttempt()) < strtotime('-3 hours')) {
+                    $programmeFilters[] = $programmeFilter;
+                }
             }
             return $programmeFilters;
         } catch (InvalidPluginDefinitionException $e) {
@@ -557,20 +568,35 @@ class epgController extends ControllerBase
      */
     public function checkIfSport($title)
     {
-        $keywords = [
-            'WRC',
-            'AFL' ,
-            'Formula E',
-            'NBA',
-            'RWC',
-            'MLS'
-        ];
-        foreach($keywords as $keyword) {
+        foreach($this->getSportKeywords() as $keyword) {
             if(strpos(strtolower($title), strtolower($keyword) . ' ') !== false) {
                 return $keyword;
             }
         }
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    private function getSportKeywords()
+    {
+        try {
+            $nodes = \Drupal::entityTypeManager()
+                ->getStorage('taxonomy_term')
+                ->loadByProperties([
+                    'vid' => 'sport_keywords',
+                ]);
+            $keywords = [];
+            foreach($nodes as $node) {
+                $term = Term::load($node->id());
+                $keywords[] = $term->getName();
+            }
+            return $keywords;
+        } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
+        }
+        return [];
     }
 
     /**

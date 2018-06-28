@@ -1,0 +1,21 @@
+uuid: a88c8f3e-d431-4bfe-abd6-e83ce527715b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_filter_last_attempt
+    - node.type.programme_filter
+  module:
+    - datetime
+id: node.programme_filter.field_filter_last_attempt
+field_name: field_filter_last_attempt
+entity_type: node
+bundle: programme_filter
+label: 'Last Attempt'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

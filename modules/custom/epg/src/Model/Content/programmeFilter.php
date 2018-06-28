@@ -7,12 +7,12 @@ use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\node\Entity\Node;
 
-class programmeFilter
+class programmeFilter extends baseModel
 {
-    var $nid = null;
     var $_title;
     var $_series;
     private $_movie;
+    private $_last_attempt;
 
     function __construct($nodeId = null)
     {
@@ -37,6 +37,7 @@ class programmeFilter
         $this->setTitle($node->get('title')->value);
         $this->setSeries($node->get('field_filter_series')->target_id);
         $this->setMovie($node->get('field_filter_movie')->target_id);
+        $this->setLastAttempt($node->get('field_filter_last_attempt')->value);
     }
 
     public function update()
@@ -52,6 +53,7 @@ class programmeFilter
         $node->set('title', $this->getTitle());
         $node->set('field_filter_series', $this->getSeries());
         $node->set('field_filter_movie', $this->getMovie());
+        $node->set('field_filter_last_attempt', $this->getLastAttempt());
         try {
             $node->save();
             $this->nid = $node->id();
@@ -166,5 +168,21 @@ class programmeFilter
     public function setMovie($movie)
     {
         $this->_movie = $movie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastAttempt()
+    {
+        return $this->_last_attempt;
+    }
+
+    /**
+     * @param mixed $last_attempt
+     */
+    public function setLastAttempt($last_attempt)
+    {
+        $this->_last_attempt = $last_attempt;
     }
 }

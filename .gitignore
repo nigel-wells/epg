@@ -30,6 +30,7 @@ sites/default/default.services.yml
 sites/*/files
 sites/*/private
 sites/*/translations
+sites/default/config_K96pyG4-XDWYyhj1wsTEVWkVK2vZEBKubOKyUEnW-noQ2gjgfM8Bq05i1-czz7PytfJE3YmBZg/sync/.htaccess
 
 # Ignore default text files
 /CHANGELOG.txt

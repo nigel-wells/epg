@@ -3,16 +3,27 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.programme_filter.field_filter_last_attempt
     - field.field.node.programme_filter.field_filter_movie
     - field.field.node.programme_filter.field_filter_series
     - node.type.programme_filter
   module:
+    - datetime
     - user
 id: node.programme_filter.default
 targetEntityType: node
 bundle: programme_filter
 mode: default
 content:
+  field_filter_last_attempt:
+    weight: 104
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
   field_filter_movie:
     weight: 103
     label: above
