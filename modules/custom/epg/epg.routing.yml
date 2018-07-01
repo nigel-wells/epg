@@ -15,3 +15,10 @@ epg.node_update:
     _title: 'Update EPG Data'
   requirements:
     _permission: 'access content'
+
+epg.programme_poster_default:
+  path: '/programme/image/{node}'
+  defaults:
+    _controller: '\Drupal\epg\Controller\epgController:outputProgrammerPoster'
+  requirements:
+    _permission: 'access content'

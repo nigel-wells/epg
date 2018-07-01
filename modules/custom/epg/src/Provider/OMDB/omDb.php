@@ -233,7 +233,28 @@ class omDb
     public function searchForMovie($title) {
         $request = new request();
         $request->setCacheExpiry();
-        $request->setOptions(['t' => $title]);
+        $request->setOptions(['s' => $title]);
+        $response = $this->request($request);
+        if($this->isValidResponse($response)) {
+            if(isset($response->Response) && $response->Response == 'True') {
+                $movie = new movie($response);
+                if($movie->isMovie()) {
+                    return $movie;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $id
+     * @return bool|movie
+     */
+    public function getMovie($id)
+    {
+        $request = new request();
+        $request->setCacheExpiry();
+        $request->setOptions(['i' => $id]);
         $response = $this->request($request);
         if($this->isValidResponse($response)) {
             if(isset($response->Response) && $response->Response == 'True') {

@@ -336,6 +336,7 @@ class series
             }
             return $episodes;
         } catch (InvalidPluginDefinitionException $e) {
+        } catch (PluginNotFoundException $e) {
         }
         return [];
     }

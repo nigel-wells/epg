@@ -299,7 +299,7 @@ class epgController extends ControllerBase
         foreach($this->getProgrammeFiltersMissingData() as $programmeFilter) {
             $this->updateProgrammeFilterData($programmeFilter);
             $counter++;
-            if($counter == 50) break;
+            if($counter == 100) break;
         }
         $this->logMessage('EPG - Matching Programme Filters Completed');
     }
@@ -434,7 +434,7 @@ class epgController extends ControllerBase
         foreach($programmes as $programme) {
             $this->updateProgrammeData($programme);
             $counter++;
-            if($counter == 30) break;
+            if($counter == 50) break;
         }
     }
 
@@ -483,6 +483,7 @@ class epgController extends ControllerBase
                 ->notExists('field_programme_movie')
                 ->condition('field_programme_duration', '60', '>')
                 ->condition('field_programme_start_time', date('Y-m-d\tH:i:s', strtotime('-1 day')), '>')
+                ->condition('status', '1')
                 ->execute();
             $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
             $programmes = [];
@@ -761,7 +762,7 @@ class epgController extends ControllerBase
             }
             if(!$posterAdded) {
                 $xmlIcon = $xmlProgramme->addChild('icon');
-                $xmlIcon->addAttribute('src', 'https://dummyimage.com/778x1200/000/fff.jpg&text=' . rawurlencode($programme->getTitle()));
+                $xmlIcon->addAttribute('src', 'http://epg.kiwi.nz/programme/image/' . $programme->id());
             }
         }
         // Save the file
@@ -827,5 +828,15 @@ class epgController extends ControllerBase
         } catch (PluginNotFoundException $e) {
         }
         return [];
+    }
+
+    public function outputProgrammerPoster()
+    {
+        $node = intval(\Drupal::routeMatch()->getParameter('node'));
+        // You can get nid and anything else you need from the node object.
+        $programme = new programme($node);
+        if($programme->id()) {
+            $programme->outputPosterDefaultImage();
+        }
     }
 }

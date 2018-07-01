@@ -3,8 +3,10 @@
 namespace Drupal\epg\Model\Content;
 
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
+use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\epg\Controller\epgController;
+use Drupal\epg\Provider\OMDB\omDb;
 use Drupal\epg\Provider\TVDB\tvdb;
 use Drupal\epg\Provider\TVMaze\tvMaze;
 use Drupal\file\Entity\File;
@@ -58,6 +60,7 @@ class movie
                     $this->loadNodeData();
                 }
             } catch (InvalidPluginDefinitionException $e) {
+            } catch (PluginNotFoundException $e) {
             }
         }
     }
@@ -130,6 +133,26 @@ class movie
             $this->setPoster($file->id());
             $this->update();
         } catch (EntityStorageException $e) {
+        }
+    }
+
+    /**
+     * return void
+     */
+    public function checkForUpdates()
+    {
+        if($this->getImdbId()) {
+            $omDb = new omDb();
+            $dataMovie = $omDb->getMovie($this->getImdbId());
+            if ($dataMovie !== false) {
+                $this->setTitle($dataMovie->getTitle());
+                $this->setPlot($dataMovie->getPlot());
+                $this->setYear($dataMovie->getYear());
+                $this->update();
+                if ($image = $dataMovie->getPoster()) {
+                    $this->attachImage($image);
+                }
+            }
         }
     }
 

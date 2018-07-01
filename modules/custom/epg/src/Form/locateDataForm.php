@@ -4,7 +4,7 @@ namespace Drupal\epg\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\epg\Controller\epgController;
+use Drupal\epg\Model\Content\movie;
 use Drupal\epg\Model\Content\programmeFilter;
 use Drupal\epg\Model\Content\series;
 use Drupal\epg\Provider\OMDB\omDb;
@@ -51,10 +51,10 @@ class locateDataForm extends ConfigFormBase {
             $form['intro'] = [
                 '#markup' => '<h2>' . $programmeFilter->getTitle() . '</h2>'
             ];
-            $form['omdb_id'] = [
-                '#type' => 'number',
-                '#title' => $this->t('OMDB ID'),
-                '#description' => $this->t('ID from <a href="http://www.omdbapi.com/" target="_blank">www.omdbapi.com</a>'),
+            $form['imdb_id'] = [
+                '#type' => 'textfield',
+                '#title' => $this->t('IMDb ID'),
+                '#description' => $this->t('IMDb from <a href="https://www.imdb.com/find?q=' . rawurlencode($programmeFilter->getSearchTitle()) . '" target="_blank">www.imdb.com</a>'),
             ];
             $form['tvdb_id'] = [
                 '#type' => 'number',
@@ -85,13 +85,30 @@ class locateDataForm extends ConfigFormBase {
         $programmeFilter = new programmeFilter($node);
         if($programmeFilter->nid) {
             $series = new series();
-            $omdb_id = $form_state->getValue('omdb_id');
+            $movie = new movie();
+            $imdb_id = $form_state->getValue('imdb_id');
             $tvdb_id = $form_state->getValue('tvdb_id');
             $tvmaze_id = $form_state->getValue('tvmaze_id');
-            if ($omdb_id) {
+            if ($imdb_id) {
                 $omdb = new omDb();
+                if ($dataMovie = $omdb->getMovie($imdb_id)) {
+                    $movie->setImdbId($dataMovie->getImdbID());
+                    $movie->checkForExistingNode();
+                    if (!$movie->nid) {
+                        $movie->update();
+                        $movie->checkForUpdates();
+                    }
+                }
             } elseif ($tvdb_id) {
                 $tvdb = new tvdb();
+                if ($dataSeries = $tvdb->getSeries($tvdb_id)) {
+                    $series->setTvMazeId($dataSeries->getId());
+                    $series->checkForExistingNodeTvMaze();
+                    if (!$series->nid) {
+                        $series->update();
+                        $series->checkForUpdates();
+                    }
+                }
             } elseif ($tvmaze_id) {
                 $tvMaze = new tvMaze();
                 if ($dataSeries = $tvMaze->getSeries($tvmaze_id)) {
@@ -104,9 +121,10 @@ class locateDataForm extends ConfigFormBase {
                 }
             }
             $programmeFilter->setSeries($series->nid);
+            $programmeFilter->setMovie($movie->nid);
             $programmeFilter->update();
             $messenger = \Drupal::messenger();
-            $messenger->addMessage('Updated to match: ' . $series->getTitle());
+            $messenger->addMessage('Updated to match: ' . ($series->nid ? $series->getTitle() : $movie->getTitle()));
         }
     }
 }
