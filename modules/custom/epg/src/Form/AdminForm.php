@@ -83,7 +83,6 @@ class AdminForm extends ConfigFormBase {
         if($import_feeds) {
             $epgController->importFeed();
         }
-
         if($update_filters) {
             $epgController->importProviderData();
         }
