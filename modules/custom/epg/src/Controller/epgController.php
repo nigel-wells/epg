@@ -762,7 +762,7 @@ class epgController extends ControllerBase
             }
             if(!$posterAdded) {
                 $xmlIcon = $xmlProgramme->addChild('icon');
-                $xmlIcon->addAttribute('src', 'http://epg.kiwi.nz/programme/image/' . $programme->id());
+                $xmlIcon->addAttribute('src', 'http://epg.kiwi.nz/programme/image/' . $programme->getFilter());
             }
         }
         // Save the file
@@ -834,9 +834,9 @@ class epgController extends ControllerBase
     {
         $node = intval(\Drupal::routeMatch()->getParameter('node'));
         // You can get nid and anything else you need from the node object.
-        $programme = new programme($node);
-        if($programme->id()) {
-            $programme->outputPosterDefaultImage();
+        $programmeFilter = new programmeFilter($node);
+        if($programmeFilter->id()) {
+            $programmeFilter->outputPosterDefaultImage();
         }
     }
 }

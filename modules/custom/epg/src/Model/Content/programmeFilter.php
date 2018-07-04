@@ -122,6 +122,118 @@ class programmeFilter extends baseModel
         }
     }
 
+    public function outputPosterDefaultImage()
+    {
+        // Establish image factors:
+        $text = $this->getTitle();
+        $debug = false;
+        $font_size = 60; // Font size is in pixels.
+        $font_file = drupal_get_path('module', 'epg') . '/src/Controller/assets/fonts/arialbd.ttf';
+        $imageWidth = 778;
+        $imageHeight = 1200;
+        $padding = 50;
+        $linePadding = 25;
+        $imageWidthIncPadding = $imageWidth - ($padding * 2);
+        $imageHeightIncPadding = $imageHeight - ($padding * 2);
+        // Create image:
+        $image = imagecreatetruecolor($imageWidth, $imageHeight);
+
+        // Allocate text and background colors (RGB format):
+        $text_color = imagecolorallocate($image, 255, 255, 255);
+        $bg_color = imagecolorallocate($image, 0, 0, 0);
+        $debug_color = imagecolorallocate($image, 255, 0, 0);
+
+        // Fill image:
+        imagefill($image, 0, 0, $bg_color);
+
+        // Whitespace
+        $typeSpace = imagettfbbox($font_size, 0, $font_file, ' ');
+        $typeSpaceWidth = abs($typeSpace[4] - $typeSpace[0]);
+        // Get the width of all the words in the title
+        $words = explode(' ', $text);
+        $wordDimensions = [];
+        $totalWidth = ($typeSpaceWidth * (count($words) - 1));
+        foreach($words as $word) {
+            $type = imagettfbbox($font_size, 0, $font_file, $word);
+            $typeWidth = abs($type[4] - $type[0]);
+            $typeHeight = abs($type[5] - $type[1]);
+            $wordDimensions[] = [
+                'word' => $word,
+                'width' => $typeWidth,
+                'height' => $typeHeight
+            ];
+            $totalWidth += $typeWidth;
+        }
+        // Figure out how many lines of text we need to display the words
+        $linesRequired = ceil($totalWidth / $imageWidthIncPadding);
+        $lineCount = 0;
+        $totalBlockHeight = 0;
+        $totalBlockBaseLineOffset = 0;
+        $firstLineHeight = 0;
+        $maxWordsPerLine = ceil(count($words) / $linesRequired);
+        $lines = [];
+        while($lineCount < $linesRequired) {
+            $line = '';
+            $lineWidth = 0;
+            $wordsUsed = 0;
+            foreach($wordDimensions as $index => $dimensions) {
+                if( $lineWidth + $typeSpaceWidth + $dimensions['width'] > $imageWidthIncPadding) {
+                    $linesRequired++;
+                    break;
+                }
+                if($line) {
+                    $line .= ' ';
+                    $lineWidth += $typeSpaceWidth;
+                }
+                $line .= $dimensions['word'];
+                $lineWidth += $dimensions['width'];
+                unset($wordDimensions[$index]);
+                $wordsUsed++;
+                if($wordsUsed == $maxWordsPerLine) {
+                    break;
+                }
+            }
+            $lines[] = $line;
+            $lineCount++;
+            // Get heights of the line to calculate placement on the image
+            $type = imagettfbbox($font_size, 0, $font_file, $line);
+            $typeHeight = abs($type[5] - $type[1]);
+            $totalBlockHeight += $typeHeight;
+            $totalBlockBaseLineOffset += ($typeHeight - $font_size);
+            if(!$firstLineHeight) $firstLineHeight = $typeHeight;
+        }
+        $totalBlockHeight += $linePadding * (count($lines) - 1);
+        $lineOffset = ($totalBlockHeight / 2) - $firstLineHeight;
+        $heightExtra = 0;
+        foreach($lines as $lineCount => $line) {
+            // Get dimensions for the line
+            $type = imagettfbbox($font_size, 0, $font_file, $line);
+            $typeWidth = abs($type[4] - $type[0]);
+            $typeHeight = abs($type[5] - $type[1]);
+
+            // Fix starting x and y coordinates for the text:
+            $x = (($imageWidthIncPadding - $typeWidth) / 2) + $padding;
+            $y = (($imageHeightIncPadding / 2) + $padding) - $lineOffset;
+            $lineOffset -= $typeHeight - $heightExtra + $linePadding;
+            $heightExtra = ($typeHeight - $font_size);
+            // Add TrueType text to image:
+            if($debug) {
+                imagefilledrectangle($image, 0, $y - $typeHeight, $imageWidth, $y, $debug_color);
+            }
+            imagettftext($image, $font_size, 0, $x, $y - $heightExtra, $text_color, $font_file, $line);
+        }
+        if($debug) {
+            imagefilledrectangle($image, 0, ($imageHeight / 2), $imageWidth, ($imageHeight / 2), $text_color);
+        }
+        // Generate and send image to browser:
+        header('Content-type: image/png');
+        imagepng($image);
+
+        // Destroy image in memory to free-up resources:
+        imagedestroy($image);
+        exit;
+    }
+
     /**
      * @return mixed
      */
