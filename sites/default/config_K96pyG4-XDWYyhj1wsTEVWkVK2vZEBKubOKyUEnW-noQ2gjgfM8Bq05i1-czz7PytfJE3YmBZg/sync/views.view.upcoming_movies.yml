@@ -278,6 +278,7 @@ display:
         type: normal
         title: 'Upcoming Movies'
         menu_name: main
+        weight: -48
     cache_metadata:
       max-age: -1
       contexts:

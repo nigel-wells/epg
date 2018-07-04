@@ -740,6 +740,7 @@ display:
         type: normal
         title: 'Upcoming Programmes'
         menu_name: main
+        weight: -49
     cache_metadata:
       max-age: -1
       contexts:
