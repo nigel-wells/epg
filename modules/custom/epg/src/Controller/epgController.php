@@ -67,7 +67,7 @@ class epgController extends ControllerBase
     public function importFeed()
     {
         if ($files = $this->getFeeds()) {
-//            $this->importChannels($files);
+            $this->importChannels($files);
             $this->importProgrammes($files);
         }
     }

@@ -233,7 +233,7 @@ class omDb
     public function searchForMovie($title) {
         $request = new request();
         $request->setCacheExpiry();
-        $request->setOptions(['s' => $title]);
+        $request->setOptions(['t' => $title]);
         $response = $this->request($request);
         if($this->isValidResponse($response)) {
             if(isset($response->Response) && $response->Response == 'True') {

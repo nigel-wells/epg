@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.programme.field_programme_end_time
     - field.field.node.programme.field_programme_episode
     - field.field.node.programme.field_programme_episode_number
+    - field.field.node.programme.field_programme_filter
     - field.field.node.programme.field_programme_last_attempt
     - field.field.node.programme.field_programme_movie
     - field.field.node.programme.field_programme_possible_episode
@@ -18,12 +19,76 @@ dependencies:
     - field.field.node.programme.field_programme_season
     - field.field.node.programme.field_programme_series
     - field.field.node.programme.field_programme_start_time
+    - field.field.node.programme.field_programme_valid
     - field.field.node.programme.field_programme_video_quality
     - field.field.node.programme.field_programme_year
     - node.type.programme
   module:
     - datetime
+    - field_layout
+    - layout_builder
+    - layout_discovery
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          d4c01df0-41a8-4647-9ce8-546f635d1ae7:
+            uuid: d4c01df0-41a8-4647-9ce8-546f635d1ae7
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_movie'
+              label_display: ''
+              formatter:
+                label: hidden
+                settings:
+                  view_mode: teaser
+                  link: false
+                third_party_settings: {  }
+                type: entity_reference_entity_view
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          555d1b2d-dd1d-4e0c-98e6-8018bdeb7ee7:
+            uuid: 555d1b2d-dd1d-4e0c-98e6-8018bdeb7ee7
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_channel'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          0c35b9e0-2b26-45f0-9cac-6d2fe6c721cd:
+            uuid: 0c35b9e0-2b26-45f0-9cac-6d2fe6c721cd
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_start_time'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 2
 id: node.programme.poster_teaser
 targetEntityType: node
 bundle: programme
@@ -67,10 +132,12 @@ hidden:
   field_programme_end_time: true
   field_programme_episode: true
   field_programme_episode_number: true
+  field_programme_filter: true
   field_programme_last_attempt: true
   field_programme_possible_episode: true
   field_programme_rating: true
   field_programme_season: true
   field_programme_series: true
+  field_programme_valid: true
   field_programme_video_quality: true
   field_programme_year: true

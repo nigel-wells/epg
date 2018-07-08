@@ -8,8 +8,55 @@ dependencies:
     - image.style.thumbnail
     - node.type.channel
   module:
+    - field_layout
     - image
+    - layout_builder
+    - layout_discovery
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          9607b979-5605-4644-bd37-75652d9c28cc:
+            uuid: 9607b979-5605-4644-bd37-75652d9c28cc
+            region: content
+            configuration:
+              id: 'field_block:node:channel:field_channel_number'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          abe70222-5392-4f5c-8883-ac8fa3f87515:
+            uuid: abe70222-5392-4f5c-8883-ac8fa3f87515
+            region: content
+            configuration:
+              id: 'field_block:node:channel:field_channel_icon'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  image_style: thumbnail
+                  image_link: file
+                third_party_settings: {  }
+                type: image
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
 id: node.channel.default
 targetEntityType: node
 bundle: channel

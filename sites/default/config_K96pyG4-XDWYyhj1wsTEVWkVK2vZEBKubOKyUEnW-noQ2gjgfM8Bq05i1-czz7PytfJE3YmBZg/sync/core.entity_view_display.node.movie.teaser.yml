@@ -11,8 +11,55 @@ dependencies:
     - image.style.poster
     - node.type.movie
   module:
+    - field_layout
     - image
+    - layout_builder
+    - layout_discovery
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          dab05604-e313-4b57-94bd-2d635bc74a7c:
+            uuid: dab05604-e313-4b57-94bd-2d635bc74a7c
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_poster'
+              label_display: ''
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_style: poster
+                  image_link: ''
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          12c07fcf-ff29-4dce-97e2-96c6152586a6:
+            uuid: 12c07fcf-ff29-4dce-97e2-96c6152586a6
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_year'
+              label_display: ''
+              formatter:
+                type: number_integer
+                label: hidden
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
 id: node.movie.teaser
 targetEntityType: node
 bundle: movie

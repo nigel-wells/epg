@@ -9,9 +9,87 @@ dependencies:
     - field.field.node.movie.field_movie_year
     - node.type.movie
   module:
+    - field_layout
     - image
+    - layout_builder
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          d0566280-6c25-43b2-be16-100ea8b2306d:
+            uuid: d0566280-6c25-43b2-be16-100ea8b2306d
+            region: content
+            configuration:
+              id: 'field_block:node:movie:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_default
+                settings: {  }
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          f7ee0e40-f683-4223-97e8-6adc5b36c58a:
+            uuid: f7ee0e40-f683-4223-97e8-6adc5b36c58a
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_year'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          4ffd7ba6-c0b9-48c5-804f-d558e4ae7905:
+            uuid: 4ffd7ba6-c0b9-48c5-804f-d558e4ae7905
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_imdb_id'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 2
+          3dd446a0-89dc-42a8-9aa3-1cfd0b0dc861:
+            uuid: 3dd446a0-89dc-42a8-9aa3-1cfd0b0dc861
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_poster'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  image_style: ''
+                  image_link: ''
+                third_party_settings: {  }
+                type: image
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 3
 id: node.movie.default
 targetEntityType: node
 bundle: movie
@@ -53,4 +131,6 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden: {  }

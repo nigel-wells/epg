@@ -5,10 +5,46 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.episodes.body
+    - field.field.node.episodes.field_episode
+    - field.field.node.episodes.field_episode_first_aired
+    - field.field.node.episodes.field_episode_last_updated
+    - field.field.node.episodes.field_episode_season
+    - field.field.node.episodes.field_episode_series
+    - field.field.node.episodes.field_episode_tvdb_id
+    - field.field.node.episodes.field_programme_tvmaze_id
     - node.type.episodes
   module:
+    - field_layout
+    - layout_builder
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          00e008b2-8da1-4e82-a44a-42a6a9a77aca:
+            uuid: 00e008b2-8da1-4e82-a44a-42a6a9a77aca
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_summary_or_trimmed
+                settings:
+                  trim_length: 600
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
 id: node.episodes.teaser
 targetEntityType: node
 bundle: episodes
@@ -25,4 +61,13 @@ content:
   links:
     weight: 100
     region: content
-hidden: {  }
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_episode: true
+  field_episode_first_aired: true
+  field_episode_last_updated: true
+  field_episode_season: true
+  field_episode_series: true
+  field_episode_tvdb_id: true
+  field_programme_tvmaze_id: true

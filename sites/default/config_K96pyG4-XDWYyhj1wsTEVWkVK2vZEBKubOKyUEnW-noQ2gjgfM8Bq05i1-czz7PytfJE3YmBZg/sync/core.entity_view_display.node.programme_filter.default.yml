@@ -9,7 +9,69 @@ dependencies:
     - node.type.programme_filter
   module:
     - datetime
+    - field_layout
+    - layout_builder
+    - layout_discovery
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          a904d0b8-2413-4ce9-8c5d-32aa8ee06015:
+            uuid: a904d0b8-2413-4ce9-8c5d-32aa8ee06015
+            region: content
+            configuration:
+              id: 'field_block:node:programme_filter:field_filter_series'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          a3bc4aeb-178c-4274-8e01-564f43a68bc5:
+            uuid: a3bc4aeb-178c-4274-8e01-564f43a68bc5
+            region: content
+            configuration:
+              id: 'field_block:node:programme_filter:field_filter_movie'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          509a7f5e-89ba-4345-b1d1-bdff3ccf435e:
+            uuid: 509a7f5e-89ba-4345-b1d1-bdff3ccf435e
+            region: content
+            configuration:
+              id: 'field_block:node:programme_filter:field_filter_last_attempt'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 2
 id: node.programme_filter.default
 targetEntityType: node
 bundle: programme_filter
@@ -43,4 +105,6 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden: {  }

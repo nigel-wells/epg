@@ -5,10 +5,46 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.series.body
+    - field.field.node.series.field_series_categories
+    - field.field.node.series.field_series_first_aired
+    - field.field.node.series.field_series_network
+    - field.field.node.series.field_series_poster
+    - field.field.node.series.field_series_status
+    - field.field.node.series.field_series_tvdb_id
+    - field.field.node.series.field_series_tvmaze_id
     - node.type.series
   module:
+    - field_layout
+    - layout_builder
+    - layout_discovery
     - text
     - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          2dfc869c-5d75-4a04-a58e-390b734527b9:
+            uuid: 2dfc869c-5d75-4a04-a58e-390b734527b9
+            region: content
+            configuration:
+              id: 'field_block:node:series:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_summary_or_trimmed
+                settings:
+                  trim_length: 600
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
 id: node.series.teaser
 targetEntityType: node
 bundle: series
@@ -25,4 +61,13 @@ content:
   links:
     weight: 100
     region: content
-hidden: {  }
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_series_categories: true
+  field_series_first_aired: true
+  field_series_network: true
+  field_series_poster: true
+  field_series_status: true
+  field_series_tvdb_id: true
+  field_series_tvmaze_id: true

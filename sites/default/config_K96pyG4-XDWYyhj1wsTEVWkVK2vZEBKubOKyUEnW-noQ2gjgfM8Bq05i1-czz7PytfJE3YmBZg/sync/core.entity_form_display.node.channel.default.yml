@@ -8,8 +8,15 @@ dependencies:
     - image.style.thumbnail
     - node.type.channel
   module:
+    - content_moderation
+    - field_layout
     - image
+    - layout_discovery
     - path
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
 id: node.channel.default
 targetEntityType: node
 bundle: channel
@@ -36,6 +43,12 @@ content:
     third_party_settings: {  }
     type: number
     region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
+    third_party_settings: {  }
   path:
     type: path
     weight: 30
