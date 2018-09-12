@@ -1,0 +1,17 @@
+uuid: 4f7fed68-c269-44fa-9a97-a4e2e51a0231
+langcode: en
+status: true
+dependencies:
+  module:
+    - update
+title: 'Update indexes'
+id: update_cron
+weight: 6
+module: update
+callback: update_cron
+scheduler:
+  id: simple
+launcher:
+  id: serial
+logger:
+  id: database

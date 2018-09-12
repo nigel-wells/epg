@@ -1,0 +1,20 @@
+uuid: 3c614f2a-f424-4837-9350-fdf8c6fe075c
+langcode: en
+status: true
+dependencies:
+  module:
+    - epg
+title: 'Exports all programmes into an XML file to be imported by Plex'
+id: epg_last_export
+weight: 0
+module: epg
+callback: epg_last_export_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '0+@ * * * *'
+launcher:
+  id: serial
+logger:
+  id: database

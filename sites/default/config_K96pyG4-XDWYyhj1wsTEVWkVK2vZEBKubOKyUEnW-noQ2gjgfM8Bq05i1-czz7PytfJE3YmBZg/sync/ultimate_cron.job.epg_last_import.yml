@@ -1,0 +1,20 @@
+uuid: b160e706-d341-43c5-b590-90507123bf1e
+langcode: en
+status: true
+dependencies:
+  module:
+    - epg
+title: 'Imports latest EPG files uploaded via FTP'
+id: epg_last_import
+weight: 0
+module: epg
+callback: epg_last_import_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '0+@ */12 * * *'
+launcher:
+  id: serial
+logger:
+  id: database

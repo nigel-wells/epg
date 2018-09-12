@@ -1,0 +1,20 @@
+uuid: acfa0dae-bf79-4850-8a6e-9ce9e78f9cd2
+langcode: en
+status: true
+dependencies:
+  module:
+    - epg
+title: 'Scans all imported XML data to match up any missing series and movies'
+id: epg_last_update
+weight: 0
+module: epg
+callback: epg_last_update_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '*/5+@ * * * *'
+launcher:
+  id: serial
+logger:
+  id: database

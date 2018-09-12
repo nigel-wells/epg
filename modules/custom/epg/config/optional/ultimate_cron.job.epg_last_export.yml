@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - epg
+title: 'Exports all programmes into an XML file to be imported by Plex'
+id: epg_last_export
+module: epg
+callback: epg_last_export_cron
+scheduler:
+  id: simple
+  configuration:
+    rules:
+      - '0+@ * * * *'

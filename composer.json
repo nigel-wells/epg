@@ -11,7 +11,9 @@
         "drupal/core": "^8.5",
         "drupal/backup_migrate": "^4.0",
         "drupal/webform": "^5.0",
-        "drupal/honeypot": "^1.27"
+        "drupal/honeypot": "^1.27",
+        "drupal/ultimate_cron": "^2.0",
+        "drupal/config_devel": "^1.2"
     },
     "replace": {
 
