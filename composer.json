@@ -8,7 +8,7 @@
         "wikimedia/composer-merge-plugin": "^1.4",
         "drupal/devel": "^1.2",
         "drush/drush": "^9.4",
-        "drupal/core": "^8.6",
+        "drupal/core": "^8.6.0",
         "drupal/backup_migrate": "^4.0",
         "drupal/webform": "^5.0",
         "drupal/honeypot": "^1.29",
