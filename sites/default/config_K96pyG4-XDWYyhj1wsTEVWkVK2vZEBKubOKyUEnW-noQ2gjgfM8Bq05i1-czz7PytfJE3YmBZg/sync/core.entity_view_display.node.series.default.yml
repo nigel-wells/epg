@@ -161,6 +161,27 @@ third_party_settings:
                 entity: layout_builder.entity
             additional: {  }
             weight: 7
+          ea0c025a-8287-45a8-b8d7-f90da056983b:
+            uuid: ea0c025a-8287-45a8-b8d7-f90da056983b
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:series:links'
+            additional: {  }
+            weight: 8
+          a511d004-f02a-422c-8ce7-44a6ec13dbb9:
+            uuid: a511d004-f02a-422c-8ce7-44a6ec13dbb9
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:series:links'
+            additional: {  }
+            weight: 9
+    enabled: true
 id: node.series.default
 targetEntityType: node
 bundle: series

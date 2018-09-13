@@ -38,6 +38,27 @@ third_party_settings:
                 entity: layout_builder.entity
             additional: {  }
             weight: 0
+          ad646468-001d-4a09-9a03-8bade7fffec8:
+            uuid: ad646468-001d-4a09-9a03-8bade7fffec8
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:user:user:member_for'
+            additional: {  }
+            weight: 1
+          364c2683-a25a-46d2-95bb-dbd02d8116d8:
+            uuid: 364c2683-a25a-46d2-95bb-dbd02d8116d8
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:user:user:member_for'
+            additional: {  }
+            weight: 2
+    enabled: true
 _core:
   default_config_hash: V51QPCKkgNREKtSmB9Iu2wmAMEpktVpnzklWaZV8UYo
 id: user.user.default

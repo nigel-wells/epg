@@ -140,6 +140,27 @@ third_party_settings:
                 entity: layout_builder.entity
             additional: {  }
             weight: 5
+          d29e78b7-e819-4c1b-8df7-6adfff8d1096:
+            uuid: d29e78b7-e819-4c1b-8df7-6adfff8d1096
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme:links'
+            additional: {  }
+            weight: 6
+          37eea619-c2c1-4011-a7ff-dc444b19bfda:
+            uuid: 37eea619-c2c1-4011-a7ff-dc444b19bfda
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme:links'
+            additional: {  }
+            weight: 7
+    enabled: true
 id: node.programme.teaser
 targetEntityType: node
 bundle: programme

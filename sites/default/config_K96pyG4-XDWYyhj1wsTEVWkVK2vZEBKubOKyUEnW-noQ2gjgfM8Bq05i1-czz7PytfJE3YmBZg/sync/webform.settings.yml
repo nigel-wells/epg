@@ -8,7 +8,7 @@ settings:
   default_reset_button_label: Reset
   default_form_submit_once: false
   default_form_confidential_message: 'This form is confidential. You must <a href="[site:login-url]/logout?destination=[current-page:url:relative]">Log out</a> to submit it.'
-  default_form_login_message: 'Please login to access this form.'
+  default_form_access_denied_message: 'Please login to access this form.'
   default_form_disable_back: false
   default_form_submit_back: false
   default_form_unsaved: false
@@ -34,10 +34,23 @@ settings:
   default_confirmation_message: 'New submission added to [webform:title].'
   default_confirmation_back_label: 'Back to form'
   default_submission_label: '[webform_submission:submitted-to]: Submission #[webform_submission:serial]'
-  default_submission_login_message: 'Please login to access this submission.'
+  default_submission_access_denied_message: 'Please login to access this submission.'
   default_submission_exception_message: 'Unable to process this submission. Please contact the site administrator.'
   default_submission_locked_message: 'This submission has been locked.'
   default_submission_log: false
+  default_submission_views: {  }
+  default_submission_views_replace:
+    global_routes:
+      - entity.webform_submission.collection
+      - entity.webform_submission.user
+    webform_routes:
+      - entity.webform.results_submissions
+      - entity.webform.user.drafts
+      - entity.webform.user.submissions
+    node_routes:
+      - entity.node.webform.results_submissions
+      - entity.node.webform.user.drafts
+      - entity.node.webform.user.submissions
   default_previous_submission_message: 'You have already submitted this webform. <a href="#">View your previous submission</a>.'
   default_previous_submissions_message: 'You have already submitted this webform. <a href="#">View your previous submissions</a>.'
   default_autofill_message: 'This submission has been autofilled with your previous submission.'
@@ -57,6 +70,7 @@ settings:
     wide:
       title: Wide
       width: 1000
+  default_submission_login_message: 'Please login to access this submission.'
 assets:
   css: ''
   javascript: ''
@@ -104,6 +118,8 @@ element:
   default_empty_option_optional: ''
   default_icheck: ''
   default_google_maps_api_key: ''
+  default_algolia_places_app_id: ''
+  default_algolia_places_api_key: ''
   excluded_elements:
     password: password
     password_confirm: password_confirm
@@ -112,6 +128,7 @@ html_editor:
   element_format: ''
   mail_format: ''
   tidy: true
+  make_unused_managed_files_temporary: true
 file:
   file_public: false
   file_private_redirect: true
@@ -142,12 +159,13 @@ test:
   names: "first_name:\r\n  - 'John'\r\n  - 'Paul'\r\n  - 'Ringo'\r\n  - 'George'\r\nlast_name:\r\n  - 'Lennon'\r\n  - 'McCartney'\r\n  - 'Starr'\r\n  - 'Harrison'\r\naddress:\r\n  - '10 Main Street'\r\n  - '11 Brook Alley Road. APT 1'\r\nzip:\r\n  - '11111'\r\n  - '12345'\r\n  - '12345-6789'\r\npostal_code:\r\n  - '11111'\r\n  - '12345'\r\n  - '12345-6789'\r\nphone:\r\n  - '123-456-7890'\r\n  - '098-765-4321'\r\nfax:\r\n  - '123-456-7890'\r\n  - '098-765-4321'\r\ncity:\r\n  - 'Springfield'\r\n  - 'Pleasantville'\r\n  - 'Hill Valley'\r\nurl:\r\n  - 'http://example.com'\r\n  - 'http://test.com'\r\ndefault:\r\n  - 'Loremipsum'\r\n  - 'Oratione'\r\n  - 'Dixisset'\r\n"
 ui:
   video_display: dialog
-  description_help: true
   details_save: true
+  help_disabled: false
   dialog_disabled: false
   offcanvas_disabled: false
-  promotions_disabled: false
   contribute_disabled: false
+  promotions_disabled: false
+  description_help: true
 libraries:
   excluded_libraries:
     - jquery.chosen

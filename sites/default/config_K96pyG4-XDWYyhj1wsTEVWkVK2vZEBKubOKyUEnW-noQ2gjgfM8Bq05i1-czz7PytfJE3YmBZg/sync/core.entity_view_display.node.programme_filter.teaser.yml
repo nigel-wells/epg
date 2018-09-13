@@ -22,7 +22,28 @@ third_party_settings:
       -
         layout_id: layout_onecol
         layout_settings: {  }
-        components: {  }
+        components:
+          0a6560ac-e828-474e-91c9-48cedb7a2f89:
+            uuid: 0a6560ac-e828-474e-91c9-48cedb7a2f89
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme_filter:links'
+            additional: {  }
+            weight: 0
+          c8b3e51f-97a3-4bbe-a0d8-7338e502e3e6:
+            uuid: c8b3e51f-97a3-4bbe-a0d8-7338e502e3e6
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme_filter:links'
+            additional: {  }
+            weight: 1
+    enabled: true
 id: node.programme_filter.teaser
 targetEntityType: node
 bundle: programme_filter
