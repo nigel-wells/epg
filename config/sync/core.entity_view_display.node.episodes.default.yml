@@ -1,0 +1,268 @@
+uuid: ad2647fd-346d-4746-bebd-97be157e30ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.episodes.body
+    - field.field.node.episodes.field_episode
+    - field.field.node.episodes.field_episode_first_aired
+    - field.field.node.episodes.field_episode_last_updated
+    - field.field.node.episodes.field_episode_season
+    - field.field.node.episodes.field_episode_series
+    - field.field.node.episodes.field_episode_tvdb_id
+    - field.field.node.episodes.field_programme_tvmaze_id
+    - node.type.episodes
+  module:
+    - datetime
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          3b021480-92d9-4213-a064-2f285f953dff:
+            uuid: 3b021480-92d9-4213-a064-2f285f953dff
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_default
+                settings: {  }
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          8a7e478e-57d8-4343-8593-df81c44f8441:
+            uuid: 8a7e478e-57d8-4343-8593-df81c44f8441
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_episode_first_aired'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          733020f7-f745-49cc-b4aa-3845f0eb5703:
+            uuid: 733020f7-f745-49cc-b4aa-3845f0eb5703
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_episode_season'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 2
+          2505ca1e-53e1-4681-a623-42fe601ada39:
+            uuid: 2505ca1e-53e1-4681-a623-42fe601ada39
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_episode'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 3
+          e67ee3cd-531b-473f-89ef-3b0b36ecf5b3:
+            uuid: e67ee3cd-531b-473f-89ef-3b0b36ecf5b3
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_episode_tvdb_id'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 4
+          eb2d5525-b944-4db8-9735-75e9b4135578:
+            uuid: eb2d5525-b944-4db8-9735-75e9b4135578
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_episode_series'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 5
+          9324d7ee-6846-455e-9de3-30e781a05ba0:
+            uuid: 9324d7ee-6846-455e-9de3-30e781a05ba0
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_episode_last_updated'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  date_format: medium
+                  custom_date_format: ''
+                  timezone: ''
+                third_party_settings: {  }
+                type: timestamp
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 6
+          78f4a154-352e-4871-b365-2755de069e95:
+            uuid: 78f4a154-352e-4871-b365-2755de069e95
+            region: content
+            configuration:
+              id: 'field_block:node:episodes:field_programme_tvmaze_id'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 7
+          ff34f6b7-cc26-4417-a01e-7a9233dfec0d:
+            uuid: ff34f6b7-cc26-4417-a01e-7a9233dfec0d
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:episodes:links'
+            additional: {  }
+            weight: 8
+          f41e00d1-c339-4d5c-a8ab-64b42ca227c3:
+            uuid: f41e00d1-c339-4d5c-a8ab-64b42ca227c3
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:episodes:links'
+            additional: {  }
+            weight: 9
+        third_party_settings: {  }
+    enabled: true
+id: node.episodes.default
+targetEntityType: node
+bundle: episodes
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_episode:
+    weight: 104
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_episode_first_aired:
+    weight: 102
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_episode_last_updated:
+    weight: 107
+    label: above
+    settings:
+      date_format: medium
+      custom_date_format: ''
+      timezone: ''
+    third_party_settings: {  }
+    type: timestamp
+    region: content
+  field_episode_season:
+    weight: 103
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_episode_series:
+    weight: 106
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_episode_tvdb_id:
+    weight: 105
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_programme_tvmaze_id:
+    weight: 108
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

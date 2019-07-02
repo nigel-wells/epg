@@ -1,9 +1,0 @@
-uuid: 71caf2c4-ac95-47de-92ae-0a53e4e47874
-langcode: en
-status: true
-dependencies: {  }
-name: 'Sport Keywords'
-vid: sport_keywords
-description: 'Keywords used to group various sporting events under a single series'
-hierarchy: 0
-weight: 0

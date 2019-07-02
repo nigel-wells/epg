@@ -1,0 +1,115 @@
+uuid: 37092ffa-fb9b-4719-ad2c-c602a6f6aa59
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.movie.body
+    - field.field.node.movie.field_movie_imdb_id
+    - field.field.node.movie.field_movie_poster
+    - field.field.node.movie.field_movie_year
+    - image.style.poster
+    - node.type.movie
+  module:
+    - field_layout
+    - image
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          dab05604-e313-4b57-94bd-2d635bc74a7c:
+            uuid: dab05604-e313-4b57-94bd-2d635bc74a7c
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_poster'
+              label_display: ''
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_style: poster
+                  image_link: ''
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          12c07fcf-ff29-4dce-97e2-96c6152586a6:
+            uuid: 12c07fcf-ff29-4dce-97e2-96c6152586a6
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_year'
+              label_display: ''
+              formatter:
+                type: number_integer
+                label: hidden
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          e311b4ab-c719-4c85-ae0d-bdd97344456c:
+            uuid: e311b4ab-c719-4c85-ae0d-bdd97344456c
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:movie:links'
+            additional: {  }
+            weight: 2
+          38bb0580-499e-496a-a48d-d5953a5821f9:
+            uuid: 38bb0580-499e-496a-a48d-d5953a5821f9
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:movie:links'
+            additional: {  }
+            weight: 3
+        third_party_settings: {  }
+    enabled: true
+id: node.movie.teaser
+targetEntityType: node
+bundle: movie
+mode: teaser
+content:
+  field_movie_poster:
+    type: image
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      image_style: poster
+      image_link: ''
+    third_party_settings: {  }
+  field_movie_year:
+    type: number_integer
+    weight: 1
+    region: content
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+  links:
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  body: true
+  field_movie_imdb_id: true

@@ -1,0 +1,139 @@
+uuid: bd67201e-d5db-4b37-baee-774b0fbe08c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.channel.field_channel_enabled
+    - field.field.node.channel.field_channel_icon
+    - field.field.node.channel.field_channel_number
+    - image.style.thumbnail
+    - node.type.channel
+  module:
+    - field_layout
+    - image
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          9607b979-5605-4644-bd37-75652d9c28cc:
+            uuid: 9607b979-5605-4644-bd37-75652d9c28cc
+            region: content
+            configuration:
+              id: 'field_block:node:channel:field_channel_number'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          abe70222-5392-4f5c-8883-ac8fa3f87515:
+            uuid: abe70222-5392-4f5c-8883-ac8fa3f87515
+            region: content
+            configuration:
+              id: 'field_block:node:channel:field_channel_icon'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  image_style: thumbnail
+                  image_link: file
+                third_party_settings: {  }
+                type: image
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          717addef-e12c-4faa-815e-54352c347d11:
+            uuid: 717addef-e12c-4faa-815e-54352c347d11
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:channel:links'
+            additional: {  }
+            weight: 2
+          e9a7aa33-7770-4981-8f6f-db0cb42cb904:
+            uuid: e9a7aa33-7770-4981-8f6f-db0cb42cb904
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:channel:links'
+            additional: {  }
+            weight: 3
+          0d6c630d-d524-4da4-a9bc-cc241c36acb2:
+            uuid: 0d6c630d-d524-4da4-a9bc-cc241c36acb2
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:channel:field_channel_enabled'
+              formatter:
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+                type: boolean
+            additional: {  }
+            weight: 4
+        third_party_settings: {  }
+    enabled: true
+id: node.channel.default
+targetEntityType: node
+bundle: channel
+mode: default
+content:
+  field_channel_enabled:
+    weight: 103
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_channel_icon:
+    weight: 102
+    label: above
+    settings:
+      image_style: thumbnail
+      image_link: file
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_channel_number:
+    weight: 101
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

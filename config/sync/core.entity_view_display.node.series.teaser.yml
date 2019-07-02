@@ -1,0 +1,95 @@
+uuid: 6e05d30b-12b8-4c8e-a697-1094b63744c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.series.body
+    - field.field.node.series.field_series_categories
+    - field.field.node.series.field_series_first_aired
+    - field.field.node.series.field_series_network
+    - field.field.node.series.field_series_poster
+    - field.field.node.series.field_series_status
+    - field.field.node.series.field_series_tvdb_id
+    - field.field.node.series.field_series_tvmaze_id
+    - node.type.series
+  module:
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          2dfc869c-5d75-4a04-a58e-390b734527b9:
+            uuid: 2dfc869c-5d75-4a04-a58e-390b734527b9
+            region: content
+            configuration:
+              id: 'field_block:node:series:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_summary_or_trimmed
+                settings:
+                  trim_length: 600
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          6db09b96-4122-4d73-903a-b0af2c52aba5:
+            uuid: 6db09b96-4122-4d73-903a-b0af2c52aba5
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:series:links'
+            additional: {  }
+            weight: 1
+          d86bd8d5-3d47-49b6-bd24-94fc17909def:
+            uuid: d86bd8d5-3d47-49b6-bd24-94fc17909def
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:series:links'
+            additional: {  }
+            weight: 2
+        third_party_settings: {  }
+    enabled: true
+id: node.series.teaser
+targetEntityType: node
+bundle: series
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_series_categories: true
+  field_series_first_aired: true
+  field_series_network: true
+  field_series_poster: true
+  field_series_status: true
+  field_series_tvdb_id: true
+  field_series_tvmaze_id: true

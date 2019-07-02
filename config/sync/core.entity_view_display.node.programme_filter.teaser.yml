@@ -1,0 +1,61 @@
+uuid: 768b6fc8-da9b-4a80-8d79-7af167beffc8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.programme_filter.field_filter_last_attempt
+    - field.field.node.programme_filter.field_filter_movie
+    - field.field.node.programme_filter.field_filter_series
+    - node.type.programme_filter
+  module:
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          0a6560ac-e828-474e-91c9-48cedb7a2f89:
+            uuid: 0a6560ac-e828-474e-91c9-48cedb7a2f89
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme_filter:links'
+            additional: {  }
+            weight: 0
+          c8b3e51f-97a3-4bbe-a0d8-7338e502e3e6:
+            uuid: c8b3e51f-97a3-4bbe-a0d8-7338e502e3e6
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme_filter:links'
+            additional: {  }
+            weight: 1
+        third_party_settings: {  }
+    enabled: true
+id: node.programme_filter.teaser
+targetEntityType: node
+bundle: programme_filter
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_filter_last_attempt: true
+  field_filter_movie: true
+  field_filter_series: true

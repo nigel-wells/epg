@@ -1,0 +1,23 @@
+uuid: 41faa5ea-485c-4bf5-9620-faaf3cd6990c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_channel_enabled
+    - node.type.channel
+id: node.channel.field_channel_enabled
+field_name: field_channel_enabled
+entity_type: node
+bundle: channel
+label: Enabled
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

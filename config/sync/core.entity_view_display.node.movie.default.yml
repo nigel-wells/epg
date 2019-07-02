@@ -1,0 +1,158 @@
+uuid: 9320e068-29a3-452e-a281-4d6adf45f9b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.movie.body
+    - field.field.node.movie.field_movie_imdb_id
+    - field.field.node.movie.field_movie_poster
+    - field.field.node.movie.field_movie_year
+    - node.type.movie
+  module:
+    - field_layout
+    - image
+    - layout_builder
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          d0566280-6c25-43b2-be16-100ea8b2306d:
+            uuid: d0566280-6c25-43b2-be16-100ea8b2306d
+            region: content
+            configuration:
+              id: 'field_block:node:movie:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_default
+                settings: {  }
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          f7ee0e40-f683-4223-97e8-6adc5b36c58a:
+            uuid: f7ee0e40-f683-4223-97e8-6adc5b36c58a
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_year'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          4ffd7ba6-c0b9-48c5-804f-d558e4ae7905:
+            uuid: 4ffd7ba6-c0b9-48c5-804f-d558e4ae7905
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_imdb_id'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 2
+          3dd446a0-89dc-42a8-9aa3-1cfd0b0dc861:
+            uuid: 3dd446a0-89dc-42a8-9aa3-1cfd0b0dc861
+            region: content
+            configuration:
+              id: 'field_block:node:movie:field_movie_poster'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  image_style: ''
+                  image_link: ''
+                third_party_settings: {  }
+                type: image
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 3
+          bf63d0d4-4b27-4f6f-acc0-aa752c0eab8a:
+            uuid: bf63d0d4-4b27-4f6f-acc0-aa752c0eab8a
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:movie:links'
+            additional: {  }
+            weight: 4
+          cbae9720-7dcf-45ac-bb10-c3de17a42837:
+            uuid: cbae9720-7dcf-45ac-bb10-c3de17a42837
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:movie:links'
+            additional: {  }
+            weight: 5
+        third_party_settings: {  }
+    enabled: true
+id: node.movie.default
+targetEntityType: node
+bundle: movie
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_movie_imdb_id:
+    weight: 103
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_movie_poster:
+    weight: 104
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_movie_year:
+    weight: 102
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

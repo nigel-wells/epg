@@ -1,0 +1,524 @@
+uuid: abbfea64-c41e-4782-b9e0-7cae92150591
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.programme.body
+    - field.field.node.programme.field_match_score
+    - field.field.node.programme.field_programme_channel
+    - field.field.node.programme.field_programme_duration
+    - field.field.node.programme.field_programme_end_time
+    - field.field.node.programme.field_programme_episode
+    - field.field.node.programme.field_programme_episode_number
+    - field.field.node.programme.field_programme_filter
+    - field.field.node.programme.field_programme_last_attempt
+    - field.field.node.programme.field_programme_movie
+    - field.field.node.programme.field_programme_possible_episode
+    - field.field.node.programme.field_programme_rating
+    - field.field.node.programme.field_programme_season
+    - field.field.node.programme.field_programme_series
+    - field.field.node.programme.field_programme_start_time
+    - field.field.node.programme.field_programme_valid
+    - field.field.node.programme.field_programme_video_quality
+    - field.field.node.programme.field_programme_year
+    - node.type.programme
+  module:
+    - datetime
+    - field_layout
+    - layout_builder
+    - layout_discovery
+    - text
+    - user
+third_party_settings:
+  field_layout:
+    id: layout_onecol
+    settings: {  }
+  layout_builder:
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings: {  }
+        components:
+          4866295e-5ec8-4ad2-954b-1c25dcb8b2c2:
+            uuid: 4866295e-5ec8-4ad2-954b-1c25dcb8b2c2
+            region: content
+            configuration:
+              id: 'field_block:node:programme:body'
+              label_display: ''
+              formatter:
+                label: hidden
+                type: text_default
+                settings: {  }
+                third_party_settings: {  }
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 0
+          4def31e2-5f05-43f5-aeb5-26ce0cd22887:
+            uuid: 4def31e2-5f05-43f5-aeb5-26ce0cd22887
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_start_time'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 1
+          c9772261-a2ec-40f7-900d-6bd10eb2022d:
+            uuid: c9772261-a2ec-40f7-900d-6bd10eb2022d
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_end_time'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 2
+          4256d27f-42b8-492a-84b2-e71a51b14186:
+            uuid: 4256d27f-42b8-492a-84b2-e71a51b14186
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_channel'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 3
+          7db51c04-6b54-421c-9d8c-c2733ca000eb:
+            uuid: 7db51c04-6b54-421c-9d8c-c2733ca000eb
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_season'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 4
+          86e5a972-7b39-4a13-b006-062a4f6fddaa:
+            uuid: 86e5a972-7b39-4a13-b006-062a4f6fddaa
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_match_score'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 5
+          c3a4a09a-50dc-44e9-a66f-055fe78f668f:
+            uuid: c3a4a09a-50dc-44e9-a66f-055fe78f668f
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_episode'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 6
+          8fca8b07-479f-4380-aea6-7c1bf3fcdb0c:
+            uuid: 8fca8b07-479f-4380-aea6-7c1bf3fcdb0c
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_possible_episode'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 7
+          f922d3f9-36f7-4aa7-99ae-2cbf9793f5c7:
+            uuid: f922d3f9-36f7-4aa7-99ae-2cbf9793f5c7
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_episode_number'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 8
+          54e58ba3-cf4f-468c-90a2-13a4e5d994f1:
+            uuid: 54e58ba3-cf4f-468c-90a2-13a4e5d994f1
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_series'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 9
+          72a1e59e-d524-442c-889c-12e73aee851e:
+            uuid: 72a1e59e-d524-442c-889c-12e73aee851e
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_video_quality'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 10
+          bb36d988-9e85-4fac-981e-0d0d53c7b070:
+            uuid: bb36d988-9e85-4fac-981e-0d0d53c7b070
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_last_attempt'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format_type: medium
+                  timezone_override: ''
+                third_party_settings: {  }
+                type: datetime_default
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 11
+          67489acf-38ee-4c61-9009-7a26747d430f:
+            uuid: 67489acf-38ee-4c61-9009-7a26747d430f
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_duration'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 12
+          04429305-f93e-4a49-8946-bb70cc04594d:
+            uuid: 04429305-f93e-4a49-8946-bb70cc04594d
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_rating'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+                type: string
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 13
+          5e4799a6-0c04-4813-a6ec-d799f037e5d5:
+            uuid: 5e4799a6-0c04-4813-a6ec-d799f037e5d5
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_year'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                third_party_settings: {  }
+                type: number_integer
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 14
+          70efdb91-324e-4504-a66d-eef077b4793d:
+            uuid: 70efdb91-324e-4504-a66d-eef077b4793d
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_movie'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 15
+          75c91ac2-d564-416f-8366-3aac81be813a:
+            uuid: 75c91ac2-d564-416f-8366-3aac81be813a
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_filter'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+                type: entity_reference_label
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 16
+          64176514-33b5-4edf-b845-b2e72629d078:
+            uuid: 64176514-33b5-4edf-b845-b2e72629d078
+            region: content
+            configuration:
+              id: 'field_block:node:programme:field_programme_valid'
+              label_display: ''
+              formatter:
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+                type: boolean
+              context_mapping:
+                entity: layout_builder.entity
+            additional: {  }
+            weight: 17
+          5c30cde4-5ae2-41db-b7a7-73a6ae0a879a:
+            uuid: 5c30cde4-5ae2-41db-b7a7-73a6ae0a879a
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme:links'
+            additional: {  }
+            weight: 18
+          61365864-55b9-4180-85e6-37796ce20fee:
+            uuid: 61365864-55b9-4180-85e6-37796ce20fee
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'extra_field_block:node:programme:links'
+            additional: {  }
+            weight: 19
+        third_party_settings: {  }
+    enabled: true
+id: node.programme.default
+targetEntityType: node
+bundle: programme
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_match_score:
+    weight: 6
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_programme_channel:
+    weight: 4
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_programme_duration:
+    weight: 13
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_programme_end_time:
+    weight: 3
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_programme_episode:
+    weight: 7
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_programme_episode_number:
+    weight: 9
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_programme_filter:
+    weight: 17
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_programme_last_attempt:
+    weight: 12
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_programme_movie:
+    weight: 16
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_programme_possible_episode:
+    weight: 8
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_programme_rating:
+    weight: 14
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_programme_season:
+    weight: 5
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_programme_series:
+    weight: 10
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_programme_start_time:
+    weight: 2
+    label: above
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+    type: datetime_default
+    region: content
+  field_programme_valid:
+    weight: 18
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_programme_video_quality:
+    weight: 11
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_programme_year:
+    weight: 15
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }
