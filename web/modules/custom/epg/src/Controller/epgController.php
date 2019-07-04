@@ -69,7 +69,7 @@ class epgController extends ControllerBase
     public function importFeed()
     {
         if ($files = $this->getFeeds()) {
-//            $this->importChannels($files);
+            $this->importChannels($files);
             $this->importProgrammes($files);
         }
     }
@@ -319,7 +319,7 @@ class epgController extends ControllerBase
         foreach ($this->getProgrammeFiltersMissingData() as $programmeFilter) {
             $this->updateProgrammeFilterData($programmeFilter);
             $counter++;
-            if ($counter == 100) break;
+            if ($counter == 20) break;
         }
         $this->logMessage('EPG - Matching Programme Filters Completed');
     }
@@ -452,9 +452,9 @@ class epgController extends ControllerBase
         $programmes = $this->getProgrammePossibleMovies();
         $counter = 0;
         foreach ($programmes as $programme) {
-            $this->updateProgrammeData($programme);
+            $this->updateProgrammeData($programme->getFilter());
             $counter++;
-            if ($counter == 50) break;
+            if ($counter == 20) break;
         }
     }
 
@@ -510,7 +510,7 @@ class epgController extends ControllerBase
             $programmes = [];
             foreach ($nodes as $node) {
                 $programme = new programme($node);
-                if (strtotime($programme->getLastAttempt()) < strtotime('-3 hours')) {
+                if (!$programme->getLastAttempt()) {
                     $programmes[] = $programme;
                 }
             }
@@ -536,7 +536,7 @@ class epgController extends ControllerBase
             $programmeFilters = [];
             foreach ($nodes as $node) {
                 $programmeFilter = new programmeFilter($node);
-                if (strtotime($programmeFilter->getLastAttempt()) < strtotime('-3 hours')) {
+                if (!$programmeFilter->getLastAttempt()) {
                     $programmeFilters[] = $programmeFilter;
                 }
             }
