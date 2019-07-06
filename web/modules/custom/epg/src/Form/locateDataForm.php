@@ -4,6 +4,7 @@ namespace Drupal\epg\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\epg\Controller\epgController;
 use Drupal\epg\Model\Content\movie;
 use Drupal\epg\Model\Content\programmeFilter;
@@ -101,6 +102,9 @@ class locateDataForm extends ConfigFormBase {
                 if(!$epg->updateProgrammeData($programmeFilter)) {
                     $epg->updateProgrammeFilterData($programmeFilter);
                 }
+                $programmeFilter = new programmeFilter($node);
+                $series = new series($programmeFilter->getSeries());
+                $movie = new movie($programmeFilter->getMovie());
             } else {
                 if ($imdb_id) {
                     $omdb = new omDb();
@@ -136,8 +140,20 @@ class locateDataForm extends ConfigFormBase {
                 $programmeFilter->setSeries($series->nid);
                 $programmeFilter->setMovie($movie->nid);
                 $programmeFilter->update();
-                $messenger = \Drupal::messenger();
-                $messenger->addMessage('Updated to match: ' . ($series->nid ? $series->getTitle() : $movie->getTitle()));
+            }
+            $redirectId = 0;
+            if($series->nid) {
+                $redirectId = $series->nid;
+            } elseif($movie->nid) {
+                $redirectId = $movie->nid;
+            }
+            $messenger = \Drupal::messenger();
+            if($redirectId) {
+                $url = Url::fromRoute('entity.node.canonical', ['node' => $redirectId]);
+                $form_state->setRedirectUrl($url);
+                $messenger->addMessage('Updated to match ' . ($series->nid ? 'series: ' . $series->getTitle() : 'movie: ' . $movie->getTitle()));
+            } else {
+                $messenger->addMessage('Unable to match this programme to a series or movie');
             }
         }
     }
