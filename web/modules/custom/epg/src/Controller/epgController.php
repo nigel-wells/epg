@@ -45,7 +45,7 @@ class epgController extends ControllerBase
     private function logMessage($message)
     {
         if ($this->logMessages) {
-            \Drupal::logger('cron')->notice($message);
+            \Drupal::logger('epg')->notice($message);
         }
         if ($this->showMessages) {
             $messenger = \Drupal::messenger();
@@ -452,7 +452,8 @@ class epgController extends ControllerBase
         $programmes = $this->getProgrammePossibleMovies();
         $counter = 0;
         foreach ($programmes as $programme) {
-            $this->updateProgrammeData($programme->getFilter());
+            $programFilter = new programmeFilter($programme->getFilter());
+            $this->updateProgrammeData($programFilter);
             $counter++;
             if ($counter == 20) break;
         }

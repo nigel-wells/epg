@@ -3,6 +3,7 @@
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\epg\Controller\epgController;
 use Drupal\epg\Model\Content\programmeFilter;
+use Drupal\node\NodeInterface;
 
 function epg_node_update(EntityInterface $entity)
 {
@@ -25,4 +26,13 @@ function epg_last_export_cron() {
 function epg_last_update_cron() {
     $epgController = new epgController();
     $epgController->importProviderData();
+}
+
+function epg_menu_local_tasks_alter(&$local_tasks) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+        if($node->getType() != 'programme_filter') {
+            unset($local_tasks['tabs'][0]['epg.filter.update']);
+        }
+    }
 }
