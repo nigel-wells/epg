@@ -1,0 +1,23 @@
+uuid: 31d165f4-07ee-4401-a0f9-f65e11274cbc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_movie_scan_attempted
+    - node.type.programme_filter
+id: node.programme_filter.field_movie_scan_attempted
+field_name: field_movie_scan_attempted
+entity_type: node
+bundle: programme_filter
+label: 'Movie Scan Attempted'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

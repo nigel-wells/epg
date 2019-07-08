@@ -1,0 +1,23 @@
+uuid: a34976a4-4607-4053-92fb-8b55e116ce8e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_series_scan_attempted
+    - node.type.programme_filter
+id: node.programme_filter.field_series_scan_attempted
+field_name: field_series_scan_attempted
+entity_type: node
+bundle: programme_filter
+label: 'Series Scan Attempted'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

@@ -390,6 +390,7 @@ class epgController extends ControllerBase
             $programmeFilter->updateAllProgrammes();
         } else {
             $programmeFilter->setLastAttempt(date('Y-m-d\TH:i:s'));
+            $programmeFilter->setSeriesScanAttempted(1);
             $programmeFilter->update();
         }
 //        if($programmeFilter->getSeries()) {
@@ -453,9 +454,11 @@ class epgController extends ControllerBase
         $counter = 0;
         foreach ($programmes as $programme) {
             $programFilter = new programmeFilter($programme->getFilter());
-            $this->updateProgrammeData($programFilter);
-            $counter++;
-            if ($counter == 20) break;
+            if(!$programFilter->getMovieScanAttempted()) {
+                $this->updateProgrammeData($programFilter);
+                $counter++;
+                if ($counter == 20) break;
+            }
         }
     }
 
@@ -487,6 +490,7 @@ class epgController extends ControllerBase
             return true;
         } else {
             $programmeFilter->setLastAttempt(date('Y-m-d\TH:i:s'));
+            $programmeFilter->setMovieScanAttempted(1);
             $programmeFilter->update();
             $this->logMessage('Unable to find: ' . $title);
         }
@@ -511,9 +515,7 @@ class epgController extends ControllerBase
             $programmes = [];
             foreach ($nodes as $node) {
                 $programme = new programme($node);
-                if (!$programme->getLastAttempt()) {
-                    $programmes[] = $programme;
-                }
+                $programmes[] = $programme;
             }
             return $programmes;
         } catch (InvalidPluginDefinitionException $e) {
@@ -530,14 +532,15 @@ class epgController extends ControllerBase
         try {
             $result = \Drupal::entityQuery('node')
                 ->condition('type', 'programme_filter')
+                ->notExists('field_series_scan_attempted')
                 ->notExists('field_filter_series')
                 ->notExists('field_filter_movie')
                 ->execute();
             $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
             $programmeFilters = [];
             foreach ($nodes as $node) {
-                $programmeFilter = new programmeFilter($node);
-                if (!$programmeFilter->getLastAttempt()) {
+                $programmeFilter =  new programmeFilter($node);
+                if(!$programmeFilter->getSeriesScanAttempted()) {
                     $programmeFilters[] = $programmeFilter;
                 }
             }

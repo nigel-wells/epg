@@ -13,6 +13,8 @@ class programmeFilter extends baseModel
     var $_series;
     private $_movie;
     private $_last_attempt;
+    private $_field_movie_scan_attempted;
+    private $_field_series_scan_attempted;
 
     function __construct($nodeId = null)
     {
@@ -38,6 +40,8 @@ class programmeFilter extends baseModel
         $this->setSeries($node->get('field_filter_series')->target_id);
         $this->setMovie($node->get('field_filter_movie')->target_id);
         $this->setLastAttempt($node->get('field_filter_last_attempt')->value);
+        $this->setSeriesScanAttempted($node->get('field_series_scan_attempted')->value);
+        $this->setMovieScanAttempted($node->get('field_movie_scan_attempted')->value);
     }
 
     public function update()
@@ -54,6 +58,8 @@ class programmeFilter extends baseModel
         $node->set('field_filter_series', $this->getSeries());
         $node->set('field_filter_movie', $this->getMovie());
         $node->set('field_filter_last_attempt', $this->getLastAttempt());
+        $node->set('field_series_scan_attempted', $this->getSeriesScanAttempted());
+        $node->set('field_movie_scan_attempted', $this->getMovieScanAttempted());
         try {
             $node->save();
             $this->nid = $node->id();
@@ -296,5 +302,37 @@ class programmeFilter extends baseModel
     public function setLastAttempt($last_attempt)
     {
         $this->_last_attempt = $last_attempt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMovieScanAttempted()
+    {
+        return $this->_field_movie_scan_attempted;
+    }
+
+    /**
+     * @param mixed $field_movie_scan_attempted
+     */
+    public function setMovieScanAttempted($field_movie_scan_attempted)
+    {
+        $this->_field_movie_scan_attempted = $field_movie_scan_attempted;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSeriesScanAttempted()
+    {
+        return $this->_field_series_scan_attempted;
+    }
+
+    /**
+     * @param mixed $field_series_scan_attempted
+     */
+    public function setSeriesScanAttempted($field_series_scan_attempted)
+    {
+        $this->_field_series_scan_attempted = $field_series_scan_attempted;
     }
 }
