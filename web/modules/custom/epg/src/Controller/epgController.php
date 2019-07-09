@@ -468,7 +468,7 @@ class epgController extends ControllerBase
         $omDb = new omDb();
         $title = trim(str_replace([
             'Movie:',
-            'Prime Flicks:'
+            'Prime Flicks:',
         ], '', $programmeFilter->getTitle()));
         $this->logMessage('Searching OMDb for: ' . $title);
         if ($dataMovie = $omDb->searchForMovie($title)) {
