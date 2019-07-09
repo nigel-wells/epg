@@ -6,9 +6,10 @@ dependencies:
     - field.field.node.programme_filter.field_filter_last_attempt
     - field.field.node.programme_filter.field_filter_movie
     - field.field.node.programme_filter.field_filter_series
+    - field.field.node.programme_filter.field_movie_scan_attempted
+    - field.field.node.programme_filter.field_series_scan_attempted
     - node.type.programme_filter
   module:
-    - content_moderation
     - datetime
     - field_layout
     - layout_discovery
@@ -51,6 +52,20 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: entity_reference_autocomplete
+    region: content
+  field_movie_scan_attempted:
+    weight: 125
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_series_scan_attempted:
+    weight: 126
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
     region: content
   moderation_state:
     type: moderation_state_default

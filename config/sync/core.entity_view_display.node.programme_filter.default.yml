@@ -6,6 +6,8 @@ dependencies:
     - field.field.node.programme_filter.field_filter_last_attempt
     - field.field.node.programme_filter.field_filter_movie
     - field.field.node.programme_filter.field_filter_series
+    - field.field.node.programme_filter.field_movie_scan_attempted
+    - field.field.node.programme_filter.field_series_scan_attempted
     - node.type.programme_filter
   module:
     - datetime
@@ -92,6 +94,42 @@ third_party_settings:
               id: 'extra_field_block:node:programme_filter:links'
             additional: {  }
             weight: 4
+          f5f01ea4-6ec7-4cf6-af7f-e55f4da660ab:
+            uuid: f5f01ea4-6ec7-4cf6-af7f-e55f4da660ab
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:programme_filter:field_movie_scan_attempted'
+              formatter:
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+                type: boolean
+            additional: {  }
+            weight: 5
+          8f45c4bc-4d12-4cae-aa56-f569d8fc0f75:
+            uuid: 8f45c4bc-4d12-4cae-aa56-f569d8fc0f75
+            region: content
+            configuration:
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              id: 'field_block:node:programme_filter:field_series_scan_attempted'
+              formatter:
+                label: above
+                settings:
+                  format: default
+                  format_custom_false: ''
+                  format_custom_true: ''
+                third_party_settings: {  }
+                type: boolean
+            additional: {  }
+            weight: 6
         third_party_settings: {  }
     enabled: true
 id: node.programme_filter.default
@@ -123,6 +161,26 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_movie_scan_attempted:
+    weight: 105
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_series_scan_attempted:
+    weight: 106
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   links:
     weight: 100

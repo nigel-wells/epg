@@ -757,7 +757,7 @@ class epgController extends ControllerBase
                     if (count($categories)) {
                         foreach ($categories as $categoryId) {
                             $term = Term::load($categoryId);
-                            $xmlProgramme->addChild('category', $term->getName());
+                            $xmlProgramme->addChild('category', $this->parseXmlOutputText($term->getName()));
                         }
                     }
                     if ($posterId = $series->getPoster()) {
