@@ -335,6 +335,7 @@ class epgController extends ControllerBase
             if ($this->checkTextMatch($dataSeries->getSeriesName(), $programmeFilter->getSearchTitle(), $resultsFound)) {
                 $this->logMessage('found! - ' . $dataSeries->getSeriesName());
                 $series = new series();
+                $series->setTitle($dataSeries->getSeriesName());
                 $series->setTvdbId($dataSeries->getId());
                 $series->checkForExistingNode();
                 if (!$series->nid) {
@@ -354,6 +355,7 @@ class epgController extends ControllerBase
                 if ($this->checkTextMatch($dataSeries->getSeriesName(), $programmeFilter->getSearchTitle(), $resultsFound)) {
                     $this->logMessage('found! - ' . $dataSeries->getSeriesName());
                     $series = new series();
+                    $series->setTitle($dataSeries->getSeriesName());
                     $series->setTvMazeId($dataSeries->getId());
                     $series->checkForExistingNodeTvMaze();
                     if (!$series->nid) {
