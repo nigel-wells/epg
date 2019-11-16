@@ -10,16 +10,9 @@ dependencies:
     - image.style.thumbnail
     - node.type.movie
   module:
-    - content_moderation
-    - field_layout
     - image
-    - layout_discovery
     - path
     - text
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
 id: node.movie.default
 targetEntityType: node
 bundle: movie

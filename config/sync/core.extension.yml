@@ -21,10 +21,10 @@ module:
   editor: 0
   epg: 0
   field: 0
-  field_layout: 0
   field_ui: 0
   file: 0
   filter: 0
+  gutenberg: 0
   help: 0
   history: 0
   honeypot: 0

@@ -14,15 +14,11 @@ dependencies:
     - field.field.node.series.field_series_tvmaze_id
     - node.type.series
   module:
-    - field_layout
     - layout_builder
     - layout_discovery
     - text
     - user
 third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
   layout_builder:
     sections:
       -

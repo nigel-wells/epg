@@ -9,16 +9,12 @@ dependencies:
     - field.field.node.movie.field_movie_year
     - node.type.movie
   module:
-    - field_layout
     - image
     - layout_builder
     - layout_discovery
     - text
     - user
 third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
   layout_builder:
     sections:
       -

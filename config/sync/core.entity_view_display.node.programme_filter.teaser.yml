@@ -7,16 +7,14 @@ dependencies:
     - field.field.node.programme_filter.field_filter_last_attempt
     - field.field.node.programme_filter.field_filter_movie
     - field.field.node.programme_filter.field_filter_series
+    - field.field.node.programme_filter.field_movie_scan_attempted
+    - field.field.node.programme_filter.field_series_scan_attempted
     - node.type.programme_filter
   module:
-    - field_layout
     - layout_builder
     - layout_discovery
     - user
 third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
   layout_builder:
     sections:
       -
@@ -59,3 +57,5 @@ hidden:
   field_filter_last_attempt: true
   field_filter_movie: true
   field_filter_series: true
+  field_movie_scan_attempted: true
+  field_series_scan_attempted: true

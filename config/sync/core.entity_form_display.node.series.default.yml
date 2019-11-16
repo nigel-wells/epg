@@ -14,17 +14,10 @@ dependencies:
     - image.style.thumbnail
     - node.type.series
   module:
-    - content_moderation
     - datetime
-    - field_layout
     - image
-    - layout_discovery
     - path
     - text
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
 id: node.series.default
 targetEntityType: node
 bundle: series

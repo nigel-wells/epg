@@ -120,6 +120,7 @@ class channel
                 ->condition('type', 'programme')
                 ->condition('field_programme_channel', $this->nid)
                 ->condition('field_programme_start_time', \Drupal::time()->getRequestTime(), '>')
+                ->condition('status', 1)
                 ->execute();
             $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($result);
             $programmes = [];

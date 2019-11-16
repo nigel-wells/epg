@@ -9,14 +9,8 @@ dependencies:
     - image.style.thumbnail
     - node.type.channel
   module:
-    - field_layout
     - image
-    - layout_discovery
     - path
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
 id: node.channel.default
 targetEntityType: node
 bundle: channel

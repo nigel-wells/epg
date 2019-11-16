@@ -13,16 +13,9 @@ dependencies:
     - field.field.node.episodes.field_programme_tvmaze_id
     - node.type.episodes
   module:
-    - content_moderation
     - datetime
-    - field_layout
-    - layout_discovery
     - path
     - text
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
 id: node.episodes.default
 targetEntityType: node
 bundle: episodes

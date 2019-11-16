@@ -23,16 +23,9 @@ dependencies:
     - field.field.node.programme.field_programme_year
     - node.type.programme
   module:
-    - content_moderation
     - datetime
-    - field_layout
-    - layout_discovery
     - path
     - text
-third_party_settings:
-  field_layout:
-    id: layout_onecol
-    settings: {  }
 id: node.programme.default
 targetEntityType: node
 bundle: programme
